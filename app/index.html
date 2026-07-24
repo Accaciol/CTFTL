@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prep CTFL - BSTQB v4.0</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="glow-bg-secondary"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="brand-icon">🛡️</span>
+                <div class="brand-text">
+                    <h1>Prep CTFL</h1>
+                    <span>Syllabus v4.0</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="dashboard" id="tab-dashboard">
+                    <span class="nav-icon">📊</span> Painel Geral
+                </button>
+                <button class="nav-item" data-tab="resumos" id="tab-resumos">
+                    <span class="nav-icon">📖</span> Resumos Teóricos
+                </button>
+                <button class="nav-item" data-tab="simulado" id="tab-simulado">
+                    <span class="nav-icon">📝</span> Realizar Simulado
+                </button>
+                <button class="nav-item" data-tab="flashcards" id="tab-flashcards">
+                    <span class="nav-icon">🎴</span> Flashcards
+                </button>
+            </nav>
+
+            <div class="progress-widget">
+                <h3>Seu Progresso</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="overall-progress" style="width: 0%"></div>
+                </div>
+                <p><span id="progress-percentage">0%</span> concluído</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h2 id="page-title">Painel Geral</h2>
+                    <p id="page-subtitle">Bem-vindo ao seu painel de treinamento para a certificação CTFL.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="btn-quick-quiz">⚡ Simulado Rápido</button>
+                </div>
+            </header>
+
+            <!-- Tab Content: Dashboard -->
+            <section class="tab-panel active" id="panel-dashboard">
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">🎯</div>
+                        <div class="stat-info">
+                            <h3>Questões Feitas</h3>
+                            <p class="stat-number" id="stat-total-questions">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-green">✅</div>
+                        <div class="stat-info">
+                            <h3>Taxa de Acerto</h3>
+                            <p class="stat-number" id="stat-correct-rate">0%</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon icon-purple">⚡</div>
+                        <div class="stat-info">
+                            <h3>Capítulo mais Forte</h3>
+                            <p class="stat-number" id="stat-strong-cap">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="dashboard-card card-large">
+                        <h2>Como está estruturado o Exame?</h2>
+                        <div class="exam-info-grid">
+                            <div class="info-item">
+                                <strong>40</strong>
+                                <span>Questões</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>60 min</strong>
+                                <span>Tempo Limite</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>65%</strong>
+                                <span>Mínimo para passar (26 acertos)</span>
+                            </div>
+                        </div>
+                        <p>O exame oficial é de múltipla escolha com 4 opções por questão, sem penalidade por erro. Utilize o nosso modo simulado para se acostumar com o tempo!</p>
+                    </div>
+
+                    <div class="dashboard-card card-small">
+                        <h2>Atalhos Rápidos</h2>
+                        <div class="quick-links">
+                            <a href="#" class="quick-link" id="link-cap1">Capítulo 1: Fundamentos</a>
+                            <a href="#" class="quick-link" id="link-cap4">Capítulo 4: Análise e Técnicas</a>
+                            <a href="#" class="quick-link" id="link-study-cards">Estudar Flashcards</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Resumos -->
+            <section class="tab-panel" id="panel-resumos">
+                <div class="chapter-list">
+                    <div class="chapter-card">
+                        <div class="chapter-num">01</div>
+                        <div class="chapter-content">
+                            <h3>Fundamentos de Testes</h3>
+                            <p>Conceitos de teste, defeito vs falha, 7 princípios fundamentais e psicologia de testes.</p>
+                            <a href="../capitulos/01_fundamentos_testes.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                    <div class="chapter-card">
+                        <div class="chapter-num">02</div>
+                        <div class="chapter-content">
+                            <h3>Testes no Ciclo de Vida do SDLC</h3>
+                            <p>Modelos de desenvolvimento, níveis de teste (Componente, Integração, Sistema, Aceite) e tipos de teste.</p>
+                            <a href="../capitulos/02_ciclo_vida_sdlc.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                    <div class="chapter-card">
+                        <div class="chapter-num">03</div>
+                        <div class="chapter-content">
+                            <h3>Teste Estático</h3>
+                            <p>Vantagens do teste estático, tipos de revisões (inspeção, walkthrough, etc.) e papéis no processo.</p>
+                            <a href="../capitulos/03_teste_estatico.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                    <div class="chapter-card">
+                        <div class="chapter-num">04</div>
+                        <div class="chapter-content">
+                            <h3>Análise e Modelagem de Testes</h3>
+                            <p>Técnicas de Caixa-Preta (Valor Limite, Equivalência) e Caixa-Branca (Sentença, Decisão).</p>
+                            <a href="../capitulos/04_analise_modelagem.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                    <div class="chapter-card">
+                        <div class="chapter-num">05</div>
+                        <div class="chapter-content">
+                            <h3>Gerenciamento das Atividades</h3>
+                            <p>Organização de equipes, independência, riscos de projeto/produto e gerenciamento de defeitos.</p>
+                            <a href="../capitulos/05_gerenciamento_atividades.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                    <div class="chapter-card">
+                        <div class="chapter-num">06</div>
+                        <div class="chapter-content">
+                            <h3>Ferramentas de Teste</h3>
+                            <p>Tipos de ferramentas, benefícios e riscos da automação e introdução na organização.</p>
+                            <a href="../capitulos/06_ferramentas_teste.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Simulado -->
+            <section class="tab-panel" id="panel-simulado">
+                <div id="simulado-setup">
+                    <div class="setup-card">
+                        <h2>Configuração do Simulado</h2>
+                        <p>Escolha o modo de teste para começar:</p>
+                        
+                        <div class="mode-options">
+                            <div class="mode-option active" data-mode="full">
+                                <h3>Simulado Completo</h3>
+                                <p>Até 40 questões cobrindo todos os capítulos (proporção semelhante à prova).</p>
+                            </div>
+                            <div class="mode-option" data-mode="chapter">
+                                <h3>Por Capítulo</h3>
+                                <select id="select-chapter-filter" class="form-select">
+                                    <option value="1">Capítulo 1: Fundamentos de Testes</option>
+                                    <option value="2">Capítulo 2: Testes no Ciclo de Vida</option>
+                                    <option value="3">Capítulo 3: Teste Estático</option>
+                                    <option value="4">Capítulo 4: Análise e Técnicas</option>
+                                    <option value="5">Capítulo 5: Gerenciamento</option>
+                                    <option value="6">Capítulo 6: Ferramentas de Teste</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" id="btn-start-quiz">Iniciar Simulado</button>
+                    </div>
+                </div>
+
+                <div id="simulado-active" class="hidden">
+                    <div class="quiz-header">
+                        <div class="quiz-info-meta">
+                            <span class="badge" id="quiz-cap-badge">Capítulo 1</span>
+                            <span class="quiz-counter">Questão <strong id="current-question-num">1</strong> de <strong id="total-questions-num">40</strong></span>
+                        </div>
+                        <div class="quiz-timer" id="quiz-timer">60:00</div>
+                    </div>
+
+                    <div class="progress-bar-container mini">
+                        <div class="progress-bar" id="quiz-progress-bar" style="width: 8.33%"></div>
+                    </div>
+
+                    <div class="question-container">
+                        <h3 id="question-text">Qual das seguintes alternativas descreve melhor a diferença principal entre teste e depuração (debugging)?</h3>
+                        
+                        <div class="options-list" id="options-container">
+                            <!-- Options rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="explanation-container hidden" id="explanation-box">
+                        <h4 id="explanation-title">Justificativa</h4>
+                        <p id="explanation-text">De acordo com o Syllabus do ISTQB...</p>
+                    </div>
+
+                    <div class="quiz-footer">
+                        <button class="btn btn-secondary" id="btn-prev-question" disabled>Anterior</button>
+                        <button class="btn btn-primary" id="btn-next-question">Confirmar Resposta</button>
+                    </div>
+                </div>
+
+                <div id="simulado-results" class="hidden">
+                    <div class="results-card">
+                        <div class="results-header">
+                            <div class="score-circle">
+                                <span class="score-number" id="result-score">--/--</span>
+                                <span class="score-label" id="result-label">Aprovado!</span>
+                            </div>
+                        </div>
+                        <h2>Resultado do Simulado</h2>
+                        <p id="result-summary-text">Parabéns! Você alcançou 75% de acertos e seria aprovado no exame oficial.</p>
+
+                        <div class="results-breakdown">
+                            <h3>Desempenho por Capítulo</h3>
+                            <div id="chapter-performance-list">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="results-actions">
+                            <button class="btn btn-primary" id="btn-restart-quiz">Novo Simulado</button>
+                            <button class="btn btn-secondary" id="btn-back-dashboard">Voltar ao Painel</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Flashcards -->
+            <section class="tab-panel" id="panel-flashcards">
+                <div class="flashcards-container">
+                    <div class="flashcard-deck-header">
+                        <p>Treine sua memorização de conceitos fundamentais da CTFL (K1/K2). Clique no card para revelar a resposta.</p>
+                        <div class="deck-controls">
+                            <span class="card-counter">Card <strong id="current-card-num">1</strong> de <strong id="total-cards-num">8</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-wrapper">
+                        <div class="flashcard" id="current-flashcard">
+                            <div class="flashcard-face flashcard-front">
+                                <span class="flashcard-category" id="card-category">Capítulo 1</span>
+                                <h2 id="card-front-text">Princípio 5: O paradoxo do pesticida</h2>
+                                <span class="click-hint">Clique para revelar</span>
+                            </div>
+                            <div class="flashcard-face flashcard-back">
+                                <p id="card-back-text">Se os mesmos testes forem repetidos várias vezes, eles deixarão de encontrar novos defeitos. Para detectar novos defeitos, os testes precisam ser modificados e novos testes criados constantemente.</p>
+                                <span class="click-hint">Clique para voltar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-navigation">
+                        <button class="btn btn-secondary" id="btn-prev-card">Anterior</button>
+                        <button class="btn btn-secondary" id="btn-shuffle-cards">🔀 Misturar</button>
+                        <button class="btn btn-primary" id="btn-next-card">Próximo</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>

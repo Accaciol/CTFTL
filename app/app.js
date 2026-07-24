@@ -1,0 +1,2183 @@
+// Questions Database (fallback for CORS limitations when running locally via file://)
+const QUESTIONS_FALLBACK = [
+  {
+    "id": 1,
+    "capitulo": 1,
+    "enunciado": "Qual das seguintes alternativas descreve melhor a diferença principal entre teste e depuração (debugging)?",
+    "opcoes": [
+      "O teste identifica falhas que apontam para a presença de defeitos, enquanto a depuração localiza, analisa e corrige esses defeitos no código.",
+      "A depuração é executada por testadores para encontrar defeitos, enquanto o teste é realizado por desenvolvedores para verificar se o código funciona.",
+      "O teste é focado em remover a causa raiz das falhas, enquanto a depuração foca apenas em executar cenários sob carga de estresse.",
+      "Não há diferença real entre os dois conceitos, pois ambos visam garantir a ausência total de defeitos no software."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "De acordo com o Syllabus do ISTQB (Capítulo 1), o teste dinâmico mostra falhas que são causadas por defeitos no código. A depuração (debugging) é a atividade de desenvolvimento que localiza o defeito (a causa da falha), analisa-o e o remove ou corrige."
+  },
+  {
+    "id": 2,
+    "capitulo": 1,
+    "enunciado": "Um gerente de projeto afirma que, como a equipe de testes executou todos os 500 testes planejados sem encontrar nenhum defeito nas últimas duas semanas, o produto está 100% livre de erros e pronto para lançamento imediato. Qual princípio do teste contradiz diretamente essa afirmação?",
+    "opcoes": [
+      "O teste depende do contexto.",
+      "A ilusão da ausência de erros (e o princípio de que o teste mostra a presença de defeitos, não a sua ausência).",
+      "O paradoxo do pesticida.",
+      "O teste exaustivo é impossível."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O princípio 1 afirma que o teste mostra a presença de defeitos, não a sua ausência. Além disso, o princípio 7 (A ilusão da ausência de erros) reforça que achar e corrigir defeitos não garante o sucesso se o sistema for inutilizável ou não atender às expectativas. Dizer que o software está 100% livre de erros porque os testes passaram é uma falácia."
+  },
+  {
+    "id": 3,
+    "capitulo": 2,
+    "enunciado": "Qual das seguintes alternativas apresenta atividades típicas que pertenceriam ao Teste de Aceite Operacional (OAT)?",
+    "opcoes": [
+      "Verificação de usabilidade feita por usuários finais em um ambiente beta.",
+      "Testes de regressão focados no fluxo completo de vendas de ponta a ponta.",
+      "Testes de backup e restauração, recuperação de desastres e manutenção preventiva de segurança.",
+      "Revisão de requisitos de sistema com foco no comportamento lógico do banco de dados."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "O Teste de Aceite Operacional (OAT) é realizado pela equipe de administração de sistemas ou operações e foca em aspectos como backup/restauração, recuperação de desastres, instalação, conformidade de segurança e tarefas de manutenção."
+  },
+  {
+    "id": 4,
+    "capitulo": 2,
+    "enunciado": "Qual é a diferença fundamental entre teste de confirmação (re-teste) e teste de regressão?",
+    "opcoes": [
+      "O teste de confirmação valida se uma correção foi bem-sucedida, enquanto o teste de regressão verifica se a alteração introduziu defeitos em partes não alteradas do sistema.",
+      "O teste de regressão é feito apenas por desenvolvedores, enquanto o re-teste é executado exclusivamente por usuários finais.",
+      "O teste de confirmação é executado automaticamente em pipelines, enquanto o teste de regressão é puramente manual.",
+      "Não há diferença; ambos termos referem-se à mesma atividade de reexecutar casos de teste após uma modificação."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "O teste de confirmação (re-teste) serve para confirmar que o defeito original foi corrigido com sucesso. O teste de regressão é executado para garantir que nenhuma falha foi introduzida ou exposta em partes inalteradas do software em decorrência da alteração recente."
+  },
+  {
+    "id": 5,
+    "capitulo": 3,
+    "enunciado": "Qual das seguintes afirmativas sobre testes estáticos é VERDADEIRA?",
+    "opcoes": [
+      "Os testes estáticos exigem sempre a execução de trechos específicos do código em ambientes de homologação.",
+      "A análise estática encontra falhas em tempo de execução, enquanto os testes dinâmicos focam em encontrar defeitos nos documentos de requisitos.",
+      "Os testes estáticos podem encontrar defeitos diretamente, como inconsistências em especificações ou vulnerabilidades de segurança no código sem executá-lo.",
+      "A revisão informal é o tipo mais rigoroso de teste estático, exigindo métricas rígidas de entrada e saída."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "O teste estático analisa produtos de trabalho sem executar o código. Ele encontra defeitos diretamente (como contradições em requisitos ou desvios de padrões de código) antes que eles causem falhas operacionais que seriam vistas apenas no teste dinâmico."
+  },
+  {
+    "id": 6,
+    "capitulo": 3,
+    "enunciado": "Em uma reunião de revisão formal, quem é a pessoa responsável por mediar a reunião, garantir o respeito ao tempo (timebox) e manter a neutralidade durante as discussões?",
+    "opcoes": [
+      "O Autor.",
+      "O Redator (Scribe).",
+      "O Facilitador (Moderador).",
+      "O Gerente de Testes."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "O Facilitador (ou Moderador) lidera a reunião de revisão de forma neutra, mantém o foco na pauta, gerencia discussões e conflitos, e garante que o tempo planejado seja cumprido."
+  },
+  {
+    "id": 7,
+    "capitulo": 4,
+    "enunciado": "Um campo de entrada de texto de um formulário de cadastro aceita uma senha que deve conter entre 6 e 12 caracteres. Utilizando a técnica de Análise de Valor Limite (AVL) de 2 valores para testar o tamanho da senha, quais seriam os tamanhos de senha testados?",
+    "opcoes": [
+      "5, 6, 12 e 13 caracteres.",
+      "6, 7, 11 e 12 caracteres.",
+      "5, 6, 7, 11, 12 e 13 caracteres.",
+      "0, 5, 6 e 12 caracteres."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "Na técnica de AVL de 2 valores, testamos o próprio limite (fronteira) e o valor imediatamente fora dele. Para o limite inferior de 6, testamos 6 (válido) e 5 (inválido). Para o limite superior de 12, testamos 12 (válido) e 13 (inválido). Portanto, os tamanhos são: 5, 6, 12 e 13."
+  },
+  {
+    "id": 8,
+    "capitulo": 4,
+    "enunciado": "Considere o seguinte trecho de código:\n\n```\nif (temperatura > 30) {\n    ligarArCondicionado();\n} else {\n    desligarArCondicionado();\n}\nif (umidade < 40) {\n    ligarUmidificador();\n}\n```\n\nQual é o número mínimo de casos de teste para atingir 100% de Cobertura de Sentença e 100% de Cobertura de Decisão, respectivamente?",
+    "opcoes": [
+      "1 caso de teste para Sentença; 2 casos de teste para Decisão.",
+      "2 casos de teste para Sentença; 2 casos de teste para Decisão.",
+      "2 casos de teste para Sentença; 4 casos de teste para Decisão.",
+      "3 casos de teste para Sentença; 3 casos de teste para Decisão."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "Para cobrir todas as Sentenças executáveis, precisamos passar por todos os caminhos. \nCaso 1: temperatura = 35 (entra no primeiro if) e umidade = 30 (entra no segundo if). Linhas cobertas: ligarArCondicionado e ligarUmidificador. \nCaso 2: temperatura = 25 (entra no else do primeiro if) e umidade = 50 (não entra no segundo if). Linhas cobertas: desligarArCondicionado. \nCom esses 2 casos de teste, executamos 100% das sentenças. \nPara Cobertura de Decisão, temos duas decisões independentes (if temperatura > 30 e if umidade < 40). Precisamos que cada decisão resulte em Verdadeiro (V) e Falso (F). \nNo Caso 1: Decisão 1 é V, Decisão 2 é V. \nNo Caso 2: Decisão 1 é F (entra no else), Decisão 2 é F (pula o if). \nAssim, ambos ifs tiveram saídas Verdadeiro e Falso cobertas. Portanto, 2 casos de teste cobrem tanto 100% de Sentença quanto 100% de Decisão."
+  },
+  {
+    "id": 9,
+    "capitulo": 4,
+    "enunciado": "Se uma suíte de testes alcançou 100% de Cobertura de Decisão em um módulo de código, o que podemos afirmar sobre a Cobertura de Sentença desse mesmo módulo?",
+    "opcoes": [
+      "A cobertura de sentença será de exatamente 50%.",
+      "Não há relação direta; a cobertura de sentença pode ser qualquer valor entre 0% e 100%.",
+      "A cobertura de sentença será de 100%.",
+      "A cobertura de sentença será maior que 100%."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "Por definição lógica do ISTQB, 100% de Cobertura de Decisão garante 100% de Cobertura de Sentença, pois exercitar todas as ramificações de decisão força a passagem por todas as sentenças contidas nessas ramificações."
+  },
+  {
+    "id": 10,
+    "capitulo": 5,
+    "enunciado": "Qual das seguintes opções apresenta um exemplo de Risco de Produto?",
+    "opcoes": [
+      "O fornecedor atrasará a entrega do hardware de rede necessário para os testes de integração.",
+      "O cálculo do imposto de importação em um sistema de e-commerce falha ao processar múltiplos itens no carrinho.",
+      "A equipe de testes não possui o treinamento adequado na nova ferramenta de automação.",
+      "A gerência pode decidir cancelar o projeto antes da fase final de testes devido a cortes no orçamento."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "Riscos de Produto relacionam-se à qualidade do software em si (falhas no funcionamento, segurança insatisfatória, baixa performance, etc.). O cálculo incorreto do imposto de importação é um defeito de qualidade do produto. As demais alternativas representam Riscos de Projeto (atrasos, treinamento, orçamento)."
+  },
+  {
+    "id": 11,
+    "capitulo": 5,
+    "enunciado": "Quem é o papel responsável por monitorar as atividades de teste, escrever relatórios de sumário de teste, decidir sobre métricas de teste e liderar o planejamento de recursos?",
+    "opcoes": [
+      "O Testador.",
+      "O Desenvolvedor Líder.",
+      "O Gerente de Teste.",
+      "O Product Owner (PO)."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "O Gerente de Teste (ou Líder de Teste) é responsável pelas atividades de gestão: planejamento, estimativa, monitoramento, controle, definição de estratégia de teste, alocação de ambientes e geração de relatórios de sumário."
+  },
+  {
+    "id": 12,
+    "capitulo": 6,
+    "enunciado": "Qual é um dos principais riscos associados à introdução de ferramentas de automação de testes em uma organização?",
+    "opcoes": [
+      "A ferramenta se tornar muito lenta para executar os testes em comparação aos testadores manuais.",
+      "Expectativas irreais de que a ferramenta resolverá todos os problemas de qualidade e subestimar o esforço de manutenção contínua dos scripts.",
+      "O código-fonte da aplicação precisar ser completamente reescrito para poder ser testado pela ferramenta.",
+      "A ferramenta impedir permanentemente a realização de testes exploratórios adicionais."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O principal risco na automação é criar expectativas irreais sobre o que a ferramenta pode alcançar (ex: achar que ela substitui a inteligência do testador) e, principalmente, subestimar o tempo, custo e esforço contínuos necessários para manter os scripts de teste atualizados quando o sistema muda."
+  },
+  {
+    "id": 13,
+    "capitulo": 5,
+    "enunciado": "Sob quais circunstâncias pode ser aceitável concluir as atividades de teste mesmo que os critérios de saída definidos não tenham sido totalmente satisfeitos?",
+    "opcoes": [
+      "Somente se o orçamento estiver totalmente esgotado e a gerência ordenar a parada imediata, sem necessidade de análise de riscos.",
+      "Quando os stakeholders e os proprietários do projeto avaliam e aceitam explicitamente o risco de colocar o produto em produção sem testes adicionais, geralmente devido a restrições de tempo ou orçamento.",
+      "Quando a ferramenta de teste automatizado indica que todos os scripts executaram com sucesso, independentemente dos critérios de saída.",
+      "Nunca. O Syllabus CTFL proíbe terminantemente a conclusão de testes sem a satisfação de 100% dos critérios de saída."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "De acordo com os conceitos de testes, às vezes as atividades de teste são diminuídas por restrições de orçamento, tempo ou pressão de mercado. Pode ser aceitável encerrar os testes se os stakeholders e donos de empresas avaliarem e aceitarem formalmente o risco."
+  },
+  {
+    "id": 14,
+    "capitulo": 5,
+    "enunciado": "Qual das seguintes alternativas apresenta o objetivo principal de um Relatório de Testes de acordo com o Syllabus da ISTQB?",
+    "opcoes": [
+      "Culpar formalmente os desenvolvedores pelos defeitos mais complexos encontrados.",
+      "Servir como o único documento técnico para a equipe de infraestrutura configurar o ambiente de homologação.",
+      "Sintetizar e comunicar as informações sobre as atividades de teste realizadas, tanto durante a execução de um ciclo quanto ao final dele.",
+      "Fornecer uma garantia matemática de que o sistema está 100% livre de erros antes da entrega."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "O relatório de teste tem como objetivo sintetizar e comunicar informações de atividade de teste, servindo de base para o monitoramento e tomada de decisão durante e ao final de uma atividade de teste."
+  },
+  {
+    "id": 15,
+    "capitulo": 4,
+    "enunciado": "Em relação a testes de caixa-branca, o que é a técnica de Cobertura de Instruções (Statement Coverage)?",
+    "opcoes": [
+      "Uma métrica baseada em dividir o número de instruções executadas pelos testes pelo número total de instruções executáveis existentes no código.",
+      "Um processo de revisão de requisitos onde se conta o número de regras de negócios validadas.",
+      "Uma técnica que exige cobrir 100% dos caminhos de decisão do código, independentemente das instruções individuais.",
+      "A divisão do total de erros de compilação pelo total de commits efetuados pelo time."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "A cobertura de instruções é medida como a razão entre o número de instruções executáveis exercitadas pela suíte de teste e o total de instruções executáveis do código em teste."
+  },
+  {
+    "id": 16,
+    "capitulo": 1,
+    "enunciado": "O que descreve melhor o que é o teste de software e qual seu principal benefício para a organização?",
+    "opcoes": [
+      "É uma forma de provar que o software não contém bugs e funciona perfeitamente em qualquer ambiente.",
+      "É uma atividade puramente administrativa usada para prolongar o prazo de entrega dos projetos de software.",
+      "É uma maneira de avaliar a qualidade do software e reduzir o risco de falha do software em operação.",
+      "É o ato de depurar e corrigir o código-fonte assim que os erros de compilação são reportados."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "Testar software é uma forma de avaliar sua qualidade e reduzir os riscos de falhas operacionais em produção, fornecendo informações valiosas aos stakeholders."
+  },
+  {
+    "id": 17,
+    "capitulo": 3,
+    "enunciado": "Em relação às técnicas de revisão de produtos de trabalho, qual característica descreve de forma correta a Revisão Ad Hoc?",
+    "opcoes": [
+      "É o tipo de revisão mais formal, exigindo a moderação e papéis estritos como o de redator.",
+      "É uma técnica altamente dependente das habilidades individuais do revisor, que requer pouca preparação e pode levar à duplicidade de problemas relatados.",
+      "Baseia-se exclusivamente em checklists predefinidos criados com base nas melhores práticas da indústria.",
+      "Foca em analisar o produto de trabalho de acordo com a perspectiva de um papel específico (como usuário final ou mantenedor)."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "A revisão Ad Hoc é informal, exige pouca ou nenhuma preparação prévia/diretrizes específicas, dependendo muito da habilidade individual do revisor, o que frequentemente gera relatos duplicados por revisores diferentes."
+  },
+  {
+    "id": 18,
+    "capitulo": 1,
+    "enunciado": "Qual das alternativas a seguir define corretamente a diferença entre Condição de Teste, Caso de Teste e Dados de Teste?",
+    "opcoes": [
+      "Condição de Teste é o dado de entrada; Caso de Teste é a ferramenta de teste; Dados de Teste são as pré-condições de execução.",
+      "Condição de Teste é o item ou evento que pode ser verificado; Caso de Teste é o conjunto de entradas, pré-condições e resultados esperados; Dados de Teste são as informações que afetam ou são afetadas pelo sistema em teste.",
+      "Caso de Teste e Condição de Teste referem-se à mesma entidade, diferindo apenas no fato de que os Dados de Teste são inseridos manualmente no banco de dados.",
+      "Condição de Teste são os defeitos encontrados; Caso de Teste são os relatórios gerados; Dados de Teste são as métricas de tempo de execução."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "Uma condição de teste é um aspecto do sistema a ser verificado. Um caso de teste reúne entradas, pré-condições, resultados esperados e pós-condições para testar um objetivo. Dados de teste são os dados necessários para executar e validar as saídas do caso de teste."
+  },
+  {
+    "id": 19,
+    "capitulo": 2,
+    "enunciado": "O que representa o Modelo V no contexto do ciclo de vida de desenvolvimento de software (SDLC)?",
+    "opcoes": [
+      "Um modelo de ciclo de vida onde os testes são realizados exclusivamente ao final do desenvolvimento, sem relação com as fases anteriores.",
+      "Uma estrutura que ilustra como as atividades de teste podem ser integradas a cada fase do ciclo de vida de desenvolvimento de software, associando níveis de teste a fases de desenvolvimento.",
+      "Uma metodologia ágil moderna que proíbe qualquer tipo de documentação de design e teste estático.",
+      "Um diagrama de arquitetura de banco de dados baseado em relacionamentos direcionados de cardinalidade um-para-muitos."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O Modelo V descreve o ciclo de vida do desenvolvimento associando diretamente fases de desenvolvimento (como requisitos, design, codificação) com seus respectivos níveis de teste (aceite, sistema, integração, componente)."
+  },
+  {
+    "id": 20,
+    "capitulo": 2,
+    "enunciado": "Quais são os três gatilhos típicos que iniciam as atividades de teste de manutenção de software em um sistema que já está em produção?",
+    "opcoes": [
+      "Inicialização do projeto, planejamento de sprints e revisões de código ad hoc.",
+      "Modificação (como correções e melhorias), migração (como mudança de plataforma) e aposentadoria (retirada de circulação de partes do sistema).",
+      "Contratação de novos testadores, aquisição de novas ferramentas e atualização do glossário de termos.",
+      "Reuniões de retrospectiva, revisões formais de requisitos e execução de testes dinâmicos unitários."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O teste de manutenção ocorre em sistemas em produção e é engatilhado por: modificações (melhorias/correções), migração de plataforma/sistema operacional ou na aposentadoria/descontinuação de partes do software."
+  },
+  {
+    "id": 21,
+    "capitulo": 1,
+    "enunciado": "O que é definido pelo termo 'Testware' de acordo com o glossário do ISTQB?",
+    "opcoes": [
+      "Ferramentas proprietárias utilizadas exclusivamente por gerentes de projeto para monitorar custos de desenvolvimento.",
+      "Os artefatos gerados pelo processo de testes, tais como planos de teste, casos de teste, scripts de teste automatizados e dados de teste.",
+      "Componentes físicos de hardware necessários para configurar o ambiente físico de testes de desempenho.",
+      "Software defeituoso que foi rejeitado pela equipe de garantia de qualidade e enviado para descarte."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "Testware refere-se a todos os produtos de trabalho gerados durante as atividades de teste que são usados para planejar, modelar, executar e reportar os testes."
+  },
+  {
+    "id": 22,
+    "capitulo": 5,
+    "enunciado": "Qual o benefício de possuir um certo nível de independência (testes independentes) na equipe de testes em relação ao desenvolvimento?",
+    "opcoes": [
+      "Reduz o número total de bugs criados pelos desenvolvedores porque eles se sentem sob vigilância constante.",
+      "Torna a equipe de testes mais eficaz na descoberta de defeitos devido à diferença de vieses cognitivos e visões em relação ao autor do código.",
+      "Elimina a necessidade de qualquer comunicação posterior entre testadores e desenvolvedores no projeto.",
+      "Aumenta a velocidade de desenvolvimento, pois os testadores assumem a responsabilidade de corrigir o código de produção."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "A independência de testes traz a vantagem de que pessoas diferentes têm vieses cognitivos distintos dos autores do produto de trabalho. Isso facilita a descoberta de defeitos ou problemas de interpretação de requisitos que os desenvolvedores poderiam deixar passar."
+  },
+  {
+    "id": 23,
+    "capitulo": 5,
+    "enunciado": "Qual a importância de estabelecer uma rastreabilidade bidirecional entre os requisitos e os artefatos de teste (como casos de teste e resultados)?",
+    "opcoes": [
+      "Ela garante que nenhum bug seja inserido no código-fonte pelos desenvolvedores durante a codificação.",
+      "Ajuda a demonstrar a cobertura dos requisitos pelos testes e a avaliar o impacto de mudanças de requisitos nas atividades de teste, facilitando o monitoramento.",
+      "Ela serve principalmente para aumentar o tempo gasto na preparação de documentação exigida por regulamentações.",
+      "Serve para automatizar todo o processo de escrita de código a partir das especificações sem intervenção humana."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "A rastreabilidade bidirecional permite associar requisitos aos seus respectivos casos de teste e defeitos. Ela apoia a medição da cobertura de testes, a análise de impacto de mudanças e o monitoramento do progresso das atividades de teste."
+  },
+  {
+    "id": 24,
+    "capitulo": 5,
+    "enunciado": "Ao planejar e priorizar as tarefas e testes em um projeto, qual diretriz deve ser seguida para mitigar os riscos de forma eficiente?",
+    "opcoes": [
+      "As tarefas com menor risco devem ser sempre construídas primeiro para dar confiança rápida à equipe.",
+      "Os testes devem ser priorizados de forma aleatória para garantir que o sistema seja testado sob condições imprevisíveis.",
+      "As tarefas e testes previstos com maior risco devem ser construídos e executados primeiro, desde que não dependam de outras estórias não construídas.",
+      "Todos os testes devem ter a mesma prioridade, executando-os sequencialmente pela ordem de criação."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "Um dos aforismos do projeto orienta que as tarefas de maior risco sejam desenvolvidas e testadas primeiro, contanto que não haja dependências bloqueantes de outras tarefas."
+  },
+  {
+    "id": 25,
+    "capitulo": 1,
+    "enunciado": "Como os testadores devem se comportar na colaboração em equipe ao comunicar falhas e defeitos encontrados para evitar conflitos com desenvolvedores?",
+    "opcoes": [
+      "Focar em encontrar os culpados pelos bugs para garantir que sejam punidos adequadamente pela gerência do projeto.",
+      "Comunicar os problemas de forma objetiva, construtiva e focada nos produtos de trabalho (artefatos) e não em criticar as pessoas que os criaram.",
+      "Guardar os defeitos críticos para reportar somente na véspera do lançamento para surpreender a equipe e mostrar relevância.",
+      "Reportar os defeitos apenas de forma verbal informal, evitando registrar evidências para não expor os desenvolvedores."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "De acordo com a psicologia dos testes e os aforismos, a comunicação deve ser precisa, eficaz e construtiva, buscando soluções e focando em apontar defeitos nos artefatos produzidos (código, especificações) e não nos criadores."
+  },
+  {
+    "id": 26,
+    "capitulo": 1,
+    "enunciado": "Ao responder a uma questão na prova de certificação CTFL, qual é uma das dicas mais importantes para evitar erros de interpretação?",
+    "opcoes": [
+      "Ignorar palavras como 'primeiro', 'principal', 'correta' ou 'incorreta' e escolher a opção mais longa e detalhada.",
+      "Ler atentamente todas as palavras do enunciado, pois termos indicando ordem (ex: 'primeiro') ou relevância (ex: 'principal') alteram o que está sendo solicitado.",
+      "Focar apenas em termos técnicos em inglês e ignorar o contexto em português de todo o enunciado.",
+      "Responder imediatamente sem ler as quatro opções de resposta para economizar tempo para as questões matemáticas."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "Conforme as dicas para a prova, cada palavra no enunciado importa, especialmente os termos que direcionam a resposta correta, como verbos de ação ou qualificadores de prioridade/ordem."
+  },
+  {
+    "id": 27,
+    "capitulo": 5,
+    "enunciado": "Ao realizar um simulado preparatório, qual prática de estudo ativo é recomendada caso você acerte uma questão na qual tinha dúvidas (marcada com '?')?",
+    "opcoes": [
+      "Ignorar a questão, pois o acerto na marcação final prova que você dominava o conteúdo e o acerto foi mérito.",
+      "Apagar a dúvida e não revisar o assunto para focar no tempo de estudo de tópicos que errou por completo.",
+      "Rever a questão após o simulado e registrar/escrever o motivo de ter tido dúvidas, garantindo que o entendimento se torne seguro.",
+      "Memorizar apenas a letra da opção correta sem entender a lógica do porquê ela é a resposta certa daquele simulado."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "De acordo com as dicas para fazer simulado, rever questões acertadas sob dúvida e documentar o motivo da hesitação ajuda a solidificar o conhecimento e evitar o mesmo erro ou incerteza no exame oficial."
+  },
+  {
+    "id": 28,
+    "capitulo": 5,
+    "enunciado": "No planejamento de testes, qual atividade é considerada essencial para o estabelecimento e validação de um Plano de Testes de qualidade?",
+    "opcoes": [
+      "Escrever o plano em segredo e compartilhá-lo apenas após a finalização de todas as execuções de testes do projeto.",
+      "Obter o consenso e aprovação formal de todos os stakeholders relevantes sobre os objetivos e a abordagem de testes descrita no plano.",
+      "Garantir que o plano de teste não contenha informações sobre cronogramas ou riscos do projeto para mantê-lo curto.",
+      "Deixar a cargo dos desenvolvedores seniores a responsabilidade exclusiva de assinar e gerenciar o plano de testes sem envolver testadores."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O planejamento de testes exige comunicação constante e alinhamento com stakeholders. Obter o consenso dos stakeholders sobre os objetivos e o escopo do plano é essencial para alinhar as expectativas de qualidade."
+  },
+  {
+    "id": 29,
+    "capitulo": 5,
+    "enunciado": "Qual das seguintes atividades descreve melhor a finalidade do Monitoramento de Testes no ciclo de vida de teste?",
+    "opcoes": [
+      "Reescrever os casos de teste que falharam sem comunicar as alterações para a equipe de desenvolvimento.",
+      "Verificar continuamente o progresso real das atividades de teste em relação ao plano de testes estabelecido, utilizando métricas de teste.",
+      "Impedir que os desenvolvedores façam modificações no código-fonte até que todos os testes passem de forma unitária.",
+      "Definir unilateralmente novos critérios de entrada no meio da execução do projeto sem aprovação prévia dos gerentes."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O monitoramento de testes envolve a coleta e comparação contínua dos dados reais de execução de testes e progresso com os objetivos e planos estipulados no planejamento inicial."
+  },
+  {
+    "id": 30,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q1] Qual das seguintes afirmações descreve um objetivo de teste válido?",
+    "opcoes": [
+      "Para comprovar que não existem defeitos não corrigidos no sistema em teste.",
+      "Para comprovar que não haverá falhas após a implementação do sistema em produção.",
+      "Para reduzir o nível de risco do objeto de teste e aumentar a confiança no nível de qualidade.",
+      "Para verificar se não existem combinações de entradas não testadas."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. É impossível provar que não há mais defeitos no sistema em teste. Veja o princípio de teste 1 b) Não está correto. Consulte o princípio de teste 7 c) Está correto. Os testes identificam defeitos e falhas, o que reduz o nível de risco e, ao mesmo tempo, aumenta a confiança no nível de qualidade do objeto de teste d) Não está correto. É impossível testar todas as combinações de entradas (ver princípio de teste 2)"
+  },
+  {
+    "id": 31,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q2] Qual das seguintes opções apresenta um exemplo de atividades de teste que contribuem para o\nsucesso?",
+    "opcoes": [
+      "A participação de testadores em diversas atividades do ciclo de vida de desenvolvimento de software (SDLC) ajudará a detectar defeitos nos produtos de trabalho.",
+      "Os testadores tentam não atrapalhar os desenvolvedores enquanto eles estão codificando, para que os desenvolvedores escrevam um código melhor.",
+      "Os testadores que colaboram com os usuários finais ajudam a melhorar a qualidade dos relatórios de defeitos durante a integração de componentes e os testes de sistema.",
+      "Os testadores certificados elaborarão casos de teste muito melhores do que os testadores não certificados."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. É importante que os testadores estejam envolvidos desde o início do ciclo de vida do desenvolvimento de software (SDLC). Isso aumentará a compreensão das decisões de projeto e permitirá a detecção precoce de defeitos. b) Não está correto. Tanto os desenvolvedores quanto os testadores terão maior compreensão dos produtos de trabalho uns dos outros e de como testar o código c) Não está correto. Os usuários finais não ajudarão os testadores a aumentar a qualidade dos relatórios de defeitos; além disso, os usuários geralmente não participam de níveis de teste de baixo nível, como o teste de integração d) Não está correto. Ser certificado não significa automaticamente que o testador será melhor no projeto de testes Versão encontrada."
+  },
+  {
+    "id": 32,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q3] Você foi designado como testador em uma equipe que está desenvolvendo um novo sistema de\nforma incremental. Você notou que nenhuma alteração foi feita nos casos de teste de regressão\nexistentes por várias iterações e nenhum novo defeito de regressão foi identificado. Seu gerente\nestá satisfeito, mas você não. Qual princípio de teste explica seu ceticismo?",
+    "opcoes": [
+      "b)",
+      "d) Os testes se desgastam Falácia da ausência de defeitos Os defeitos se agrupam. Testes exaustivos são impossíveis"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Esse princípio significa que, se os mesmos testes forem repetidos várias vezes, eventualmente esses testes não encontrarão mais nenhum novo defeito. Provavelmente é por isso que todos os testes foram aprovados nesta versão também b) Não está correto. Esse princípio se refere à crença errônea de que apenas encontrar e corrigir muitos defeitos garantirão o sucesso de um sistema c) Não está correto. Este princípio diz que um pequeno número de componentes geralmente contém a maioria dos defeitos d) Não está correto. Este princípio afirma que testar todas as combinações de entradas e pré-condições não é viável"
+  },
+  {
+    "id": 33,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q4] Você trabalha em uma equipe que desenvolve um aplicativo móvel para pedidos de comida. Nesta\nversão, a equipe decidiu implementar a funcionalidade de pagamento.\nQual das seguintes atividades faz parte da análise de testes?",
+    "opcoes": [
+      "Estima-se que o teste de integração com o serviço de pagamento levará 8 dias-pessoa.",
+      "Decidiram que a equipe deveria testar se é possível dividir o pagamento adequadamente entre vários usuários.",
+      "Utilizando a análise de valores limite (BVA) para derivar os dados de teste para os casos de teste que verificam o processamento correto do pagamento do valor mínimo permitido.",
+      "Analisar a discrepância entre o resultado real e o resultado esperado após a execução de um caso de teste que verifica o processo de pagamento com cartão de crédito e reportar um defeito."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto. Estimar o esforço de teste faz parte do planejamento de testes b) Está correto. Este é um exemplo de definição de condições de teste, que faz parte da análise de teste c) Não está correto. Usar técnicas de teste para derivar itens de cobertura faz parte do projeto de teste d) Não está correto. Relatar defeitos encontrados durante o teste dinâmico faz parte da execução do teste Versão encontrada."
+  },
+  {
+    "id": 34,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q5] Qual dos seguintes fatores tem uma influência SIGNIFICATIVA na abordagem do teste?\ni.\nii.\niii.\niv.\nv.",
+    "opcoes": [
+      "b)",
+      "d) O SDLC O número de defeitos detectados em projetos anteriores Os riscos identificados do produto Novos requisitos regulamentares impõem testes caixa-branca formais. Configuração do ambiente de teste i, ii têm influência significativa i, iii, iv têm influência significativa ii, iv, v têm influência significativa iii, v têm influência significativa"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto"
+  },
+  {
+    "id": 35,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q6] Quais das DUAS tarefas a seguir pertencem PRINCIPALMENTE a uma função de teste?",
+    "opcoes": [
+      "b)",
+      "d)",
+      "Configurar ambientes de teste Manter o backlog do produto Projetar soluções para novos requisitos Crie o plano de testes Analise a base de testes"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Isso é feito pelos testadores b) Não está correto. O backlog do produto é criado e mantido pelo proprietário do produto c) Não está correto. Isso é feito pela equipe de desenvolvimento d) Não está correto. Esta é uma função gerencial e) Está correto. Isso é feito pelos testadores, uma vez que se trata de uma tarefa técnica realizada como parte de uma análise de teste. Versão encontrada."
+  },
+  {
+    "id": 36,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q7] Quais das seguintes habilidades (iv) são as habilidades MAIS importantes de um testador?\ni.\nii.\niii.\niv.\nv.",
+    "opcoes": [
+      "b)",
+      "d) Ter conhecimento da área Criando uma visão de produto Ser um bom jogador de equipe Planejar e organizar o trabalho da equipe. Pensamento crítico ii e iv são importantes i, iii e v são importantes i, ii e v são importantes iii e iv são importantes"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 37,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set A - Q8] De que forma a abordagem de equipe multidisciplinar se manifesta nas interações entre os\ntestadores e os representantes da empresa?",
+    "opcoes": [
+      "b)",
+      "d) Representantes empresariais decidem sobre as abordagens de automação de testes. Os testadores ajudam os representantes da empresa a definir uma estratégia de testes. Os representantes comerciais não fazem parte da abordagem de equipe completa. Os testadores ajudam os representantes da empresa a criar testes de aceite adequados."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. A abordagem de automação de testes é definida pelos testadores com a ajuda dos desenvolvedores e representantes da área de negócios b) Não está correto. A estratégia de teste é decidida em colaboração com os desenvolvedores c) Não está correto. Testadores, desenvolvedores e representantes da empresa fazem parte da abordagem de equipe como um todo d) Está correto. Os testadores trabalharão em estreita colaboração com os representantes da área de negócios para garantir que os níveis de qualidade desejados sejam alcançados. Isso inclui apoiálos e colaborar com eles para ajudá-los a criar testes de aceite adequados"
+  },
+  {
+    "id": 38,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q9] Considere a seguinte regra: “para cada atividade do SDLC existe uma atividade de teste\ncorrespondente”. Em quais modelos de SDLC essa regra se aplica?",
+    "opcoes": [
+      "Somente em modelos de desenvolvimento sequencial",
+      "Somente em modelos de desenvolvimento iterativo",
+      "Somente em modelos de desenvolvimento iterativos e incrementais",
+      "Em modelos de desenvolvimento sequencial, incremental e iterativo"
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) Não está correto b) Não está correto c) Não está correto d) Está correto. Esta regra se aplica a todos os modelos SDLC"
+  },
+  {
+    "id": 39,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q10] Qual das seguintes afirmações descreve MELHOR a abordagem de desenvolvimento orientado a\ntestes de aceite (ATDD)?",
+    "opcoes": [
+      "Em ATDD, os critérios de aceite são normalmente criados com base no formato dado/quando/então.",
+      "Em ATDD, os casos de teste são criados principalmente durante o teste de componentes e são orientados ao código.",
+      "Em ATDD, São criados testes, baseados em critérios de aceite, para orientar o desenvolvimento do software relacionado.",
+      "Em ATDD, os testes são baseados no comportamento desejado do software, o que facilita a compreensão por parte dos membros da equipe."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. É mais frequentemente usado no desenvolvimento orientado a comportamento (BDD) b) Não está correto. Trata-se da descrição do desenvolvimento orientado por testes (TDD) c) Está correto. No desenvolvimento orientado por testes de aceite (ATDD), os testes são escritos a partir de critérios de aceite como parte do processo de design d) Não está correto. É usado no BDD Versão encontrada."
+  },
+  {
+    "id": 40,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q11] Qual das seguintes opções NÃO é um exemplo da abordagem \"shift-left\"?",
+    "opcoes": [
+      "Revisar os requisitos do usuário antes que sejam formalmente aceitos pelos stakeholders.",
+      "Escrever um teste de componente antes de escrever o código correspondente.",
+      "Executar um teste de eficiência de desempenho para um componente durante o teste do componente.",
+      "Escrever um script de teste antes de configurar o processo de gerenciamento de configuração."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) Não está correto. A revisão antecipada é um exemplo da abordagem shift-left b) Não está correto. O TDD é um exemplo da abordagem shift-left c) Não está correto. Testes não funcionais antecipados são um exemplo da abordagem shift-left d) Está correto. Os scripts de teste devem estar sujeitos ao gerenciamento de configuração, portanto, não faz sentido criar os scripts de teste antes que esse processo seja configurado"
+  },
+  {
+    "id": 41,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q12] Qual dos argumentos abaixo você usaria para convencer seu gerente a organizar retrospectivas\nao final de cada ciclo de lançamento?",
+    "opcoes": [
+      "As retrospectivas estão muito em voga atualmente e os clientes apreciariam se as adicionássemos aos nossos processos.",
+      "Organizar retrospectivas economizará dinheiro para a organização, pois sem elas os representantes dos usuários finais não fornecem feedback imediato sobre o produto.",
+      "As fragilidades nos processos identificadas durante a retrospectiva podem ser analisadas e servir como uma lista de tarefas para o programa de melhoria contínua de processos da organização.",
+      "As retrospectivas abrangem cinco valores, incluindo coragem e respeito, que são cruciais para manter a melhoria contínua na organização."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. As retrospectivas são mais úteis para identificar oportunidades de melhoria e têm pouca importância para os clientes b) Não está correto. As retrospectivas não têm como objetivo coletar feedback sobre o produto, mas sobre o processo. Além disso, as retrospectivas são atividades internas da equipe e não devem incluir representantes dos usuários finais c) Está correto. Retrospectivas realizadas regularmente, quando acompanhadas de atividades de acompanhamento adequadas, são fundamentais para a melhoria contínua do desenvolvimento e dos testes d) Não está correto. Coragem e respeito são valores da Programação Extrema e não estão intimamente relacionados às retrospectivas Versão encontrada."
+  },
+  {
+    "id": 42,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q13] Quais tipos de falhas (1-4) se encaixam melhor em quais níveis de teste (AD)?\n1. Falhas no comportamento do sistema quando este se desvia das necessidades de\nnegócio do usuário.\n2. Falhas na comunicação entre componentes\n3. Falhas de lógica no código\n4. Falhas na implementação incorreta de regras de negócio\nA. Teste de componentes\nB. Teste de integração de componentes\nC. Teste de sistema\nD. Testes de aceite",
+    "opcoes": [
+      "b)",
+      "d) 1D, 2B, 3A, 4C 1D, 2B, 3C, 4A 1B, 2A, 3D, 4C 1C, 2B, 3A, 4D"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto b) Não está correto c) Não está correto d) Não está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 43,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set A - Q14] Você está testando uma história de usuário com três critérios de aceite: AC1, AC2 e AC3. O AC1\né coberto pelo caso de teste TC1, o AC2 pelo TC2 e o AC3 pelo TC3. O histórico de execução dos\ntestes mostra três execuções em três versões consecutivas do software, conforme descrito a\nseguir:\nExecução 1\nExecução 2\nExecução 3\nTC1\n(1) Falhou\n(4) Aprovado\n(7) Aprovado\nTC2\n(2) Aprovado\n(5) Falhou\n(8) Aprovado\nTC3\n(3) Falhou\n(6) Falhou\n(9) Aprovado\nOs testes são repetidos assim que você for informado de que todos os resultados foram\nsatisfatórios. Os defeitos encontrados durante o teste foram corrigidos e uma nova versão do\nsoftware foi disponibilizada.\nQuais dos testes acima são executados como testes de regressão?",
+    "opcoes": [
+      "b)",
+      "d) Apenas 4, 7, 8, 9 Apenas 5, 7 Apenas 4, 6, 8, 9 Apenas 5, 6"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto"
+  },
+  {
+    "id": 44,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set A - Q15] Qual das seguintes opções NÃO é um benefício dos testes estáticos?",
+    "opcoes": [
+      "Ter um gerenciamento de defeitos menos dispendioso devido à facilidade de detectar defeitos em fases posteriores do ciclo de vida de desenvolvimento de software (SDLC)",
+      "Corrigir defeitos encontrados durante testes estáticos geralmente é muito menos dispendioso do que corrigir defeitos encontrados durante testes dinâmicos.",
+      "Identificar defeitos de código que poderiam não ter sido detectados apenas com testes dinâmicos.",
+      "Detecção de lacunas e inconsistências nos requisitos"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O gerenciamento de defeitos não é menos dispendioso. Encontrar e corrigir defeitos em fases posteriores do SDLC é mais caro b) Não está correto. Essa é uma vantagem do teste estático c) Não está correto. Essa é uma vantagem do teste estático d) Não está correto. Essa é uma vantagem do teste estático Versão encontrada."
+  },
+  {
+    "id": 45,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set A - Q16] Qual das seguintes opções representa um benefício do feedback precoce e frequente?",
+    "opcoes": [
+      "b)",
+      "d) Isso melhora o processo de teste para projetos futuros. Isso obriga os clientes a priorizar suas necessidades com base nos riscos acordados. Isso fornece uma medida da qualidade das mudanças. Isso ajuda a evitar mal-entendidos quanto aos requisitos."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. O feedback pode melhorar o processo de teste, mas se o objetivo for apenas melhorar projetos futuros, o feedback não precisa ser dado antecipadamente ou com frequência b) Não está correto. O feedback não é usado para priorizar requisitos c) Não está correto. Não existe uma única maneira recomendada de medir a qualidade das alterações. Além disso, esse não é um dos benefícios do feedback precoce mencionados na seção 3.2.1 d) Está correto. O feedback precoce e frequente pode evitar malentendidos sobre os requisitos Versão encontrada."
+  },
+  {
+    "id": 46,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set A - Q17] As avaliações utilizadas na sua organização possuem os seguintes atributos:\n•\n•\n•\n•\n•\nExiste a função de um escriba.\nO principal objetivo é avaliar a qualidade.\nA reunião é conduzida pelo autor do produto do trabalho.\nExiste preparação individual.\nÉ produzido um relatório de revisão.\nQual dos seguintes tipos de avaliação é MAIS provável de ser usado?",
+    "opcoes": [
+      "b)",
+      "d) Revisão informal Passo a passo Análise técnica Inspeção"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 47,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set A - Q18] Qual das seguintes afirmações NÃO é um fator que contribui para avaliações bem-sucedidas?",
+    "opcoes": [
+      "Os participantes devem dedicar tempo suficiente para a revisão.",
+      "Dividir grandes projetos em partes menores para tornar o esforço necessário menos intenso.",
+      "Os participantes devem evitar comportamentos que possam indicar tédio, exasperação ou hostilidade para com os outros participantes.",
+      "As falhas encontradas devem ser reconhecidas, valorizadas e tratadas de forma objetiva."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) Não está correto. Tempo adequado para os indivíduos é um fator de sucesso b) Não está correto. Dividir os produtos de trabalho em pequenas partes adequadas é um fator de sucesso c) Não está correto. Evitar comportamentos que possam indicar tédio, exasperação, etc. é um fator de sucesso d) Está correto. Durante as revisões, é possível encontrar defeitos, não falhas"
+  },
+  {
+    "id": 48,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q19] Qual das seguintes opções é uma característica das técnicas de teste baseadas na experiência?",
+    "opcoes": [
+      "Os casos de teste são criados com base em informações detalhadas do projeto.",
+      "Os itens testados na seção de código da interface são usados para medir a cobertura.",
+      "As técnicas de teste dependem fortemente do conhecimento que o testador tem do software e do domínio de negócios.",
+      "Os casos de teste são usados para identificar desvios em relação aos requisitos."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. Essa é uma característica comum das técnicas de teste caixa-branca. As condições de teste, os casos de teste e os dados de teste são derivados de uma base de teste que pode incluir código, arquitetura de software, projeto detalhado ou qualquer outra fonte de informação relativa à estrutura do software. b) Não está correto. Essa é uma característica comum das técnicas de teste caixa-branca. A cobertura é medida com base nos itens testados dentro de uma estrutura selecionada e na técnica de teste aplicada à base de teste c) Está correto. Essa é uma característica comum das técnicas de teste baseadas em experiência. Esse conhecimento e experiência incluem o uso esperado do software, seu ambiente, defeitos prováveis e a distribuição desses defeitos, que são usados para definir os testes d) Não está correto. Essa é uma característica comum das técnicas de teste de caixa preta. Casos de teste podem ser usados para detectar lacunas nos requisitos e na implementação dos requisitos, bem como desvios em relação aos requisitos Versão encontrada."
+  },
+  {
+    "id": 49,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q20] Você está testando um formulário simplificado de busca de apartamentos que possui apenas dois\ncritérios de busca:\n•\n•\nandar (com três opções possíveis: térreo; primeiro andar; segundo andar ou andar superior)\nTipo de jardim (com três opções possíveis: sem jardim; jardim pequeno; jardim grande)\nCada apartamento no térreo possui jardim, enquanto os apartamentos nos andares superiores\nnão. O formulário possui um mecanismo de validação integrado que impede o uso de critérios de\nbusca que violem essa regra.\nCada teste possui dois valores de entrada: andar e tipo de jardim. Você deseja aplicar o\nparticionamento de equivalência (EP) para abranger cada andar e cada tipo de jardim em seus\ntestes.\nQual é o número mínimo de casos de teste para atingir 100% de cobertura de EP para partições\nválidas?",
+    "opcoes": [
+      "b)",
+      "d) 3 4 5 6"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 50,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q21] Você está testando um sistema que calcula a nota final do curso para um determinado aluno.\nA nota final é atribuída com base no resultado final , de acordo com as seguintes regras:\n•\n•\n•\n•\n•\n•\n0 a 50 pontos: reprovado\n51 a 60 pontos: razoável\n61 a 70 pontos: satisfatório\n71 a 80 pontos: bom\n81 a 90 pontos: muito bom\n91 a 100 pontos: excelente\nVocê preparou o seguinte conjunto de casos de teste:\nResultado\nNota Final\n91\n50\n81\n60\n70\n80\nexcelente\nfracassado\nmuito bom\njusto\nsatisfatório\nbom\nTC1\nTC2\nTC3\nTC4\nTC5\nTC6\nda análise de valor limite (BVA) de dois valores para o resultado final? Isso é alcançado com os\ncasos de teste existentes?",
+    "opcoes": [
+      "b)",
+      "d) 50% 60% 33,3% 100%"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto b) Não está correto c) Não está correto d) Não está correto"
+  },
+  {
+    "id": 51,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q22] Sua loja favorita de aluguel de bicicletas acaba de implementar um novo sistema de Gestão de\nRelacionamento com o Cliente e pediu a você, um de seus clientes mais fiéis, para testá-lo.\nAs funcionalidades implementadas são as seguintes:\n•\n•\n•\nQualquer pessoa pode alugar uma bicicleta, mas os membros recebem um desconto de 20%.\nNo entanto, se o prazo de devolução for perdido, o desconto não estará mais disponível.\nApós 15 aluguéis, os membros ganham um presente: uma camiseta.\nA tabela de decisão que descreve as funcionalidades implementadas tem a seguinte aparência:\nCondições\nSer membro\nPrazo não\ncumprido\n15º aluguel\nAções\n20% de desconto\nCamiseta de\npresente\nR1\nT\nR2\nT\nR3\nT\nR4\nT\nR5\nF\nR6\nF\nR7\nF\nR8\nF\nT\nF\nT\nF\nT\nF\nF\nT\nF\nF\nT\nT\nF\nF\nT\nT\nX\nX\nX\nX\nX\nCom base APENAS na descrição das funcionalidades do sistema de Gestão de Relacionamento\ncom o Cliente (CRM) , qual das regras acima descreve uma situação impossível?",
+    "opcoes": [
+      "b)",
+      "d) R4 R2 R6 R8"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. Um membro que não tenha perdido nenhum prazo pode receber um desconto e uma camiseta de brinde após 15 aluguéis de bicicleta b) Não está correto. Um membro que não tenha perdido nenhum prazo pode receber um desconto, mas não uma camiseta de brinde, até ter alugado uma bicicleta 15 vezes c) Não está correto. Não-membros não podem receber um desconto, mesmo que ainda não tenham perdido um prazo d) Está correto. Não há desconto para um não-membro que também tenha perdido um prazo, mas apenas os membros podem receber uma camiseta de presente. Portanto, a ação não está correta Versão encontrada."
+  },
+  {
+    "id": 52,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q23] Você testa um sistema cujo ciclo de vida é modelado pelo diagrama de transição de estados\nmostrado abaixo. O sistema inicia no estado INIT e termina sua operação no estado OFF.\nQual é o número MÍNIMO de casos de teste para obter uma cobertura de transições válida?",
+    "opcoes": [
+      "b)",
+      "d) 4 2 7 3"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Não está correto d) Está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 53,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q24] Seu conjunto de testes atingiu 100% de cobertura de instruções. Qual é a consequência desse\nfato?",
+    "opcoes": [
+      "Cada instrução no código que contém um defeito foi executada pelo menos uma vez.",
+      "Qualquer conjunto de testes que contenha mais casos de teste do que o seu conjunto de testes também atingirá 100% de cobertura de instruções.",
+      "Cada caminho no código foi executado pelo menos uma vez.",
+      "Todas as combinações de valores de entrada foram testadas pelo menos uma vez."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Como é alcançada uma cobertura de 100% das instruções, todas as instruções, incluindo aquelas com defeitos, devem ter sido executadas e avaliadas pelo menos uma vez b) Não está correto. A cobertura depende do que é testado, não do número de casos de teste. Por exemplo, para o código “if (x==0) y=1”, um caso de teste (x=0) alcança 100% de cobertura de instruções, mas dois casos de teste (x=1) e (x=2) juntos alcançam apenas 50% de cobertura de instruções c) Não está correto. Se houver um loop no código, pode haver um número infinito de caminhos possíveis, portanto, não é possível executar todos os caminhos possíveis no código d) Não está correto. Testes exaustivos não são possíveis (consulte a seção sobre os sete princípios de teste no programa do curso). Por exemplo, para o código “input x; print x”, qualquer teste único com x arbitrário alcança 100% de cobertura de instrução, mas cobre apenas um valor de entrada Versão encontrada."
+  },
+  {
+    "id": 54,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q25] Qual das seguintes afirmações NÃO é verdadeira para testes caixa-branca?",
+    "opcoes": [
+      "Durante os testes caixa-branca, toda a implementação do software é considerada.",
+      "As métricas de cobertura de código-fonte (caixa-branca) podem ajudar a identificar testes adicionais para aumentar a cobertura do código.",
+      "As técnicas de teste caixa-branca podem ser usadas em testes estáticos.",
+      "Os testes caixa-branca podem ajudar a identificar lacunas na implementação dos requisitos."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) Não está correto. O ponto forte fundamental das técnicas de teste caixa-branca é que toda a implementação do software é levada em consideração durante os testes b) Não está correto. As medidas de cobertura de caixa aberta fornecem uma avaliação objetiva da cobertura e oferecem as informações necessárias para permitir a geração de testes adicionais para aumentar essa cobertura c) Não está correto. As técnicas de teste de caixa aberta podem ser usadas para realizar revisões (testes estáticos) d) Está correto. Essa é a fraqueza das técnicas de teste de caixa aberta. Elas não são capazes de identificar a implementação ausente, pois se baseiam exclusivamente na estrutura do objeto de teste, e não na especificação de requisitos Versão encontrada."
+  },
+  {
+    "id": 55,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q26] Qual das seguintes opções descreve MELHOR o conceito por trás do palpite errôneo?",
+    "opcoes": [
+      "A detecção de erros envolve o uso do seu conhecimento e experiência com defeitos encontrados no passado e erros típicos cometidos por desenvolvedores.",
+      "A tentativa de adivinhar erros envolve usar sua experiência pessoal em desenvolvimento e os erros que você cometeu como desenvolvedor.",
+      "A adivinhação de erros exige que você imagine ser o usuário do objeto de teste e tente adivinhar os erros que ele poderia cometer ao interagir com o objeto.",
+      "A detecção automática de erros exige que você reproduza rapidamente a tarefa de desenvolvimento para identificar os tipos de erros que um desenvolvedor poderia cometer."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O conceito básico por trás da adivinhação de erros é que o testador tenta adivinhar quais erros podem ter sido cometidos pelo desenvolvedor e quais defeitos podem estar presentes no objeto de teste com base na experiência anterior (e, às vezes, em listas de verificação) b) Não está correto. Embora um testador que já foi desenvolvedor possa usar sua experiência pessoal para ajudá-lo ao realizar a adivinhação de erros, a técnica de teste não se baseia no conhecimento prévio de desenvolvimento c) Não está correto. A adivinhação de erros não é uma técnica de usabilidade para adivinhar como os usuários podem falhar na interação com o objeto de teste d) Não está correto. Reproduzir a tarefa de desenvolvimento apresenta várias falhas que a tornam impraticável, como a necessidade de o testador possuir habilidades equivalentes às do desenvolvedor e o tempo necessário para realizar o desenvolvimento. Isso não é adivinhação de erros Versão encontrada."
+  },
+  {
+    "id": 56,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q27] No seu projeto, houve um atraso no lançamento de um aplicativo totalmente novo e a execução\ndos testes começou tarde, mas você possui um conhecimento detalhado do domínio e boas\nhabilidades analíticas. A lista completa de requisitos ainda não foi compartilhada com a equipe,\nmas a gerência está solicitando a apresentação de alguns resultados de testes.\nQual técnica de teste é a mais adequada para esta situação?",
+    "opcoes": [
+      "b)",
+      "d) Testes baseados em listas de verificação Erro de adivinhação Testes exploratórios Teste de ramificação"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. Este é um novo produto. Provavelmente você ainda não tem uma lista de verificação e as condições de teste podem não ser conhecidas devido à falta de requisitos b) Não está correto. Trata-se de um produto novo. Provavelmente você não tem informações suficientes para fazer suposições corretas sobre os erros c) Está correto. O teste exploratório é mais útil quando há poucas especificações conhecidas e/ou há um prazo apertado para os testes d) Não está correto. O teste de ramificação é demorado, e sua gerência está solicitando alguns resultados de teste agora. Além disso, o teste de ramificação não envolve conhecimento de domínio"
+  },
+  {
+    "id": 57,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q28] Qual das seguintes opções descreve MELHOR a forma como os critérios de aceite pode ser\ndocumentado?",
+    "opcoes": [
+      "Realizar retrospectivas para determinar as reais necessidades dos stakeholders em relação a uma determinada história de usuário.",
+      "Utilizando o formato dado/quando/então para descrever uma condição de teste de exemplo relacionada a uma determinada história de usuário.",
+      "Utilizar a comunicação verbal para reduzir o risco de mal-entendidos sobre os critérios de aceite por parte de outras pessoas.",
+      "Documentar os riscos relacionados a uma determinada história de usuário em um plano de testes para facilitar o teste baseado em riscos dessa história de usuário."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto. As retrospectivas são usadas para registrar lições aprendidas e melhorar o processo de desenvolvimento e teste, não para documentar os critérios de aceite b) Está correto. Essa é a maneira padrão de documentar os critérios de aceite c) Não está correto. A comunicação verbal não permite documentar fisicamente os critérios de aceite como parte de uma user story (o aspecto “cartão” no modelo dos 3Cs) d) Não está correto. Os critérios de aceite estão relacionados a uma história de usuário, não a um plano de teste. Além disso, os critérios de aceite são as condições que devem ser cumpridas para decidir se a história de usuário está completa. Riscos não são tais condições Versão encontrada."
+  },
+  {
+    "id": 58,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set A - Q29] Considere a seguinte história de usuário:\nComo editor\nQuero revisar o conteúdo antes de ser publicado.\npara que eu possa garantir que a gramática esteja correta.\ne seus critérios de aceite:\n• O usuário pode fazer login no sistema de gerenciamento de conteúdo com a função de \"Editor\".\n• O editor pode visualizar páginas de conteúdo existentes.\n• O editor pode editar o conteúdo da página.\n• O editor pode adicionar comentários de marcação.\n• O editor pode salvar as alterações.\n• O editor pode reatribuir a função de \"proprietário do conteúdo\" para fazer atualizações.\nQual das seguintes opções é o MELHOR exemplo de um teste ATDD para esta história de\nusuário?",
+    "opcoes": [
+      "Teste se o editor consegue salvar o documento após editar o conteúdo da página.",
+      "Teste se o proprietário do conteúdo consegue iniciar sessão e fazer atualizações no conteúdo.",
+      "Teste se o editor consegue agendar a publicação do conteúdo editado.",
+      "Teste se o editor pode ser realocado para outro editor para fazer atualizações."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Este teste abrange dois critérios de aceite: um sobre a edição do documento e outro sobre o salvamento das alterações b) Não está correto. Os critérios de aceite abrangem as atividades do editor, não as atividades do proprietário do conteúdo c) Isso não está correto. Agendar a publicação do conteúdo editado pode ser um recurso interessante, mas não está previsto nos critérios de aceite d) Não está correto. Os critérios de aceite referem-se à reatribuição de um editor para o proprietário do conteúdo, e não para outro editor"
+  },
+  {
+    "id": 59,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q30] Como os testadores agregam valor ao planejamento de iteração e lançamento?",
+    "opcoes": [
+      "Os testadores determinam a prioridade das histórias de usuário a serem desenvolvidas.",
+      "Os testadores se concentram apenas nos aspectos funcionais do sistema a ser testado.",
+      "Os testadores participam da identificação e avaliação detalhadas dos riscos das histórias de usuário.",
+      "Os testadores garantem o lançamento de software de alta qualidade por meio do planejamento antecipado dos testes durante o processo de lançamento."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. As prioridades das histórias de usuário são determinadas pelo representante da empresa em conjunto com a equipe de desenvolvimento b) Não está correto. Os testadores se concentram tanto nos aspectos funcionais quanto nos não funcionais do sistema a ser testado c) Está correto. De acordo com o programa, essa é uma das maneiras pelas quais os testadores agregam valor ao planejamento de iteração e lançamento d) Não está correto. O projeto de testes antecipado não faz parte do planejamento de lançamento. O projeto de testes antecipado não garante automaticamente o lançamento de software de qualidade Versão encontrada."
+  },
+  {
+    "id": 60,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q31] Quais das DUAS opções a seguir são critérios de saída para testar um sistema?",
+    "opcoes": [
+      "b)",
+      "d)",
+      "Preparação do ambiente de teste A capacidade do testador de fazer login no objeto de teste. A densidade de defeitos estimada foi atingida. Os requisitos são traduzidos para o formato dado/quando/então. de regressão são automatizados."
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) Não está correto. A prontidão do ambiente de teste é um critério de disponibilidade de recursos; portanto, pertence aos critérios de entrada b) Não está correto. Este é um critério de disponibilidade de recursos; portanto, pertence aos critérios de entrada c) Está correto. A densidade estimada de defeitos é uma medida de diligência; portanto, pertence aos critérios de saída. d) Não está correto. Requisitos traduzidos para um determinado formato resultam em requisitos testáveis; portanto, pertence aos critérios de entrada e) Está correto. A automação dos testes de regressão é um critério de conclusão; portanto, pertence aos critérios de saída Na técnica de estimativa de três pontos: E = (otimista + 4*mais provável + pessimista)/6 E = (2 + (4 × 11) + 14)/6 = 10"
+  },
+  {
+    "id": 61,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q32] Sua equipe utiliza a técnica de estimativa de três pontos para estimar o esforço de teste\nnecessário para um novo recurso de alto risco. As seguintes estimativas foram feitas:\n•\n•\n•\nEstimativa mais otimista: 2 horas-pessoa\nEstimativa mais provável: 11 horas-pessoa\nEstimativa mais pessimista: 14 horas-pessoa\nQual é a estimativa final?",
+    "opcoes": [
+      "b)",
+      "d) 9 horas - pessoa 14 horas-pessoa 11 horas-pessoa 10 horas- pessoa"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Não está correto d) Está correto Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 62,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q33] Você está testando um aplicativo móvel que permite aos usuários encontrar um restaurante\npróximo com base no tipo de comida que desejam comer. Considere a seguinte lista de casos de\nteste, prioridades (ou seja, um número menor significa uma prioridade maior) e dependências:\nNúmero do caso\nde teste\nTC 001\nTC 002\nTC 003\nTC 004\nTC 005\nCondição de teste coberta\nPrioridade\nDependência lógica\nSelecione o tipo de alimento\nSelecione o restaurante\nObtenha instruções\nLigue para o restaurante\nFaça uma reserva\n3\n2\n1\n2\n3\nnenhum\nTC 001\nTC 002\nTC 002\nTC 002\nQual dos seguintes casos de teste deve ser executado como o terceiro?",
+    "opcoes": [
+      "b)",
+      "d) TC 003 TC 005 TC 002 TC 001"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto b) Não está correto c) Não está correto d) Não está correto Considerando: • O teste de usabilidade está no terceiro trimestre (1 – C) • O teste de componentes está no primeiro trimestre (2 – A) • O teste funcional está no segundo trimestre (3 – B) • O teste de confiabilidade está no Q4 (4 – D) FL-5.1.7 K2"
+  },
+  {
+    "id": 63,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q34] Considere as seguintes categorias de teste (1-4) e quadrantes de teste ágil (AD):\n1.\n2.\n3.\n4.\nTestes de usabilidade\nTeste de componentes\nTestes funcionais\nTestes de confiabilidade\nA. Quadrante de testes ágeis Q1: voltado para a tecnologia, dando suporte à equipe de\ndesenvolvimento\nB. Quadrante de testes ágeis Q2: voltado para o negócio, dando suporte à equipe de\ndesenvolvimento\nC. Quadrante de testes ágeis Q3: voltado para o negócio, análise crítica do produto\nD. Quadrante de testes ágeis Q4: tecnologia voltada para o produto, análise crítica.\nComo as seguintes categorias de teste se relacionam com os quadrantes de teste ágil?",
+    "opcoes": [
+      "b)",
+      "d) 1C, 2A, 3B, 4D 1D, 2A, 3C, 4B 1C, 2B, 3D, 4A 1D, 2B, 3C, 4A"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto b) Não está correto c) Não está correto d) Não está correto"
+  },
+  {
+    "id": 64,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q35] Durante a análise de risco, o seguinte risco foi identificado e avaliado:\n•\n•\n•\nRisco: O tempo de resposta é muito longo para gerar um relatório.\nProbabilidade de risco: média; impacto do risco: alto\nResposta ao risco:\no Uma equipe de testes independente realiza testes de eficiência de desempenho\ndurante os testes do sistema.\no Uma amostra selecionada de usuários finais realiza testes alfa e beta antes do\nlançamento.\nQue medidas se propõem tomar em resposta a este risco analisado?",
+    "opcoes": [
+      "b)",
+      "d) aceite do risco Plano de contingência Mitigação de riscos Transferência de risco"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. Não aceitamos o risco; são propostas ações concretas b) Não está correto. Não são propostos planos de contingência c) Está correto. As ações propostas estão relacionadas a testes, o que é uma forma de mitigação de risco d) Não está correto. O risco não é transferido, mas mitigado FL-5.2.4 K2 1 Versão encontrada. encontrada. Testeador Certificado, Nível Básico Conjunto de exames de amostra A Exame de amostra – Respostas Núm. da questão Resposta correta"
+  },
+  {
+    "id": 65,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q36] Qual produto de trabalho pode ser usado por uma equipe ágil para mostrar a quantidade de\ntrabalho que foi concluída e a quantidade total de trabalho restante para uma determinada\niteração?",
+    "opcoes": [
+      "b)",
+      "d) Critérios de aceite Relatório de defeitos Relatório de conclusão do teste Gráfico de Burndown"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. Os critérios de aceite são as condições utilizadas para decidir se a história de usuário está pronta. Eles não podem mostrar o andamento do trabalho b) Não está correto. Os relatórios de defeitos informam sobre os defeitos. Eles não mostram o andamento do trabalho c) Não está correto. O relatório de conclusão de testes pode ser criado após o término da iteração, portanto, não mostrará o progresso continuamente dentro de uma iteração d) Está correto. Gráficos de burndown são uma representação gráfica do trabalho restante em relação ao tempo restante. Eles são atualizados diariamente, portanto, podem mostrar continuamente o andamento do trabalho"
+  },
+  {
+    "id": 66,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q37] Você precisa atualizar um dos scripts de teste automatizados para atender a um novo requisito.\nQual processo indica que você deve criar uma versão do script de teste no repositório de testes?",
+    "opcoes": [
+      "b)",
+      "d) Gestão de rastreabilidade Testes de manutenção Gerenciamento de configuração Engenharia de requisitos"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. Rastreabilidade é a relação entre dois ou mais produtos de trabalho, não entre diferentes versões do mesmo produto de trabalho b) Não está correto. O teste de manutenção trata de testar alterações; não está intimamente relacionado ao controle de versões c) Está correto. Para dar suporte aos testes, o gerenciamento de configuração pode envolver o controle de versão de todos os itens de teste d) Não está correto. A engenharia de requisitos é a elicitação, documentação e gerenciamento de requisitos; não está intimamente relacionada ao controle de versões de scripts de teste Versão encontrada."
+  },
+  {
+    "id": 67,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set A - Q38] Você recebeu o seguinte relatório de defeito dos desenvolvedores, informando que a anomalia\ndescrita neste relatório de teste não é reproduzível.\nO aplicativo trava.\n03/05/2022 – John Doe – Rejeitado\nO aplicativo trava após inserir “Entrada de teste: $ä” no campo Nome na tela de criação de\nnovo usuário. Tentei sair e entrar com a conta test_admin01, mas o problema persiste. Tentei\ncom outras contas de administrador de teste, e o problema continua. Nenhuma mensagem de\nerro é exibida; o log (em anexo) contém a notificação de erro fatal. De acordo com o caso de\nteste TC-1305, o aplicativo deveria aceitar a entrada fornecida e criar o usuário. Por favor,\ncorrijam isso com alta prioridade, pois essa funcionalidade está relacionada ao REQ-0012, que\né um novo requisito crítico para o negócio.\nQue informações essenciais estão FALTANDO neste relatório de testes e que teriam sido úteis\npara os desenvolvedores?",
+    "opcoes": [
+      "b)",
+      "d) Resultado esperado e resultado real Referências e estado do defeito Ambiente de teste e item de teste Prioridade e gravidade"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. O resultado esperado é “o aplicativo deve aceitar a entrada fornecida e criar o usuário”. O resultado real é “O aplicativo trava após inserir “Entrada de teste. $ä””. b) Não está correto. Há uma referência ao caso de teste e ao requisito relacionado, e afirma-se que o defeito foi rejeitado. Além disso, o status do defeito não seria muito útil para os desenvolvedores c) Está correto. Não sabemos em qual ambiente de teste a anomalia foi detectada, e também não sabemos qual aplicativo (e sua versão) foi afetado d) Isso não está correto. O relatório de defeito indica que a anomalia é urgente, que se trata de um problema global (ou seja, muitas, se não todas, as contas de administração de testes estão afetadas) e afirma que o impacto é alto para os stakeholders da empresa Versão encontrada."
+  },
+  {
+    "id": 68,
+    "capitulo": 6,
+    "enunciado": "[Simulado Oficial Set A - Q39] Que atividade de teste uma ferramenta de preparação de dados suporta?",
+    "opcoes": [
+      "b)",
+      "d) Monitoramento e controle de testes Análise de teste Projeto e implementação de testes Conclusão do teste"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto. O monitoramento de testes envolve a verificação contínua de todas as atividades e a comparação do progresso real com o plano de testes. O controle de testes envolve tomar as medidas necessárias para cumprir os objetivos de teste do plano de testes. Nenhum dado de teste é preparado durante essas atividades. b) Não está correto. A análise de testes inclui a análise da base de testes para identificar as condições de teste e priorizá-las. Não são preparados dados de teste durante esta atividade. c) Está correto. O projeto e a implementação de testes podem incluir a identificação, criação ou aquisição das ferramentas de teste necessárias para a execução dos testes (por exemplo, dados de teste). d) Não está correto. As atividades de conclusão de teste ocorrem em marcos do projeto (por exemplo, lançamento, fim de iteração, conclusão do nível de teste), portanto, é tarde demais para preparar dados de teste."
+  },
+  {
+    "id": 69,
+    "capitulo": 6,
+    "enunciado": "[Simulado Oficial Set A - Q40] Qual item identifica corretamente um risco potencial da execução de testes automatizados?",
+    "opcoes": [
+      "Isso pode introduzir regressões desconhecidas na produção.",
+      "Pode ser que não estejam sendo alocados esforços suficientes para a manutenção do software de teste.",
+      "Pode não ser suficientemente confiável em ferramentas e softwares de teste associados.",
+      "Isso pode reduzir o tempo alocado para testes manuais.",
+      "b)",
+      "d) Depuração Teste de software Levantamento de requisitos Gestão de defeitos",
+      "Está correto. Testes e controle de qualidade significam exatamente a mesma coisa.",
+      "Está correto. Esses termos podem ser usados indistintamente, pois tanto os testes quanto o controle de qualidade concentram suas atividades nas mesmas questões de qualidade.",
+      "Não está correto. Testar é algo mais abrangente; os testes incluem todas as atividades relacionadas à qualidade. A Garantia da Qualidade (QA) concentra-se nos processos relacionados à qualidade.",
+      "Não está correto. A Garantia da Qualidade (QA) concentra-se em processos relacionados à qualidade, enquanto os testes concentram-se em demonstrar que um componente ou sistema é adequado à sua finalidade e em detectar defeitos.",
+      "b)",
+      "d) A causa raiz Um fracasso Um erro Um defeito",
+      "b)",
+      "d) Planejamento de testes Monitoramento e controle de testes Análise de teste Projeto de teste",
+      "Realizar a análise de impacto de uma mudança fornecerá informações sobre a conclusão dos testes.",
+      "A análise da rastreabilidade entre os casos de teste e os resultados dos testes fornecerá informações sobre o nível estimado de risco residual.",
+      "Realizar a análise de impacto de uma mudança ajudará a selecionar os casos de teste corretos para testes de regressão.",
+      "Analisar a rastreabilidade entre a base de testes, os objetos de teste e os casos de teste ajudará na seleção de dados de teste para atingir a cobertura esperada do objeto de teste.",
+      "A utilização de uma equipe de testes independente permite que a gestão do projeto atribua a responsabilidade pela qualidade do produto à equipe de testes.",
+      "Se for possível contratar uma equipe de testes externa à organização, isso trará benefícios claros, pois essa equipe externa não será tão facilmente influenciada pelas preocupações da gestão de projetos com a entrega e pela necessidade de cumprir prazos rigorosos.",
+      "Uma equipe de testes independente pode trabalhar separadamente dos desenvolvedores, não precisa se distrair com mudanças nos requisitos do projeto e pode restringir a comunicação com os desenvolvedores ao registro de defeitos por meio do sistema de gerenciamento de defeitos.",
+      "Quando as especificações contêm ambiguidades e inconsistências, suposições são feitas sobre sua interpretação, e um testador independente pode ser útil para questionar essas suposições e a interpretação feita pelo desenvolvedor.",
+      "b)",
+      "d)",
+      "Execução de teste dinâmico Teste estático Planejamento de testes Execução de testes de aceite Testes de manutenção",
+      "b)",
+      "d) Lançamento de produtos mais rápido e tempo de chegada ao mercado mais curto. Aumenta a necessidade de testes manuais repetitivos. Disponibilidade constante de software executável Redução no número de testes de regressão associados à refatoração de código. Configurar a estrutura de automação de testes é barato, já que tudo é automatizado. i, ii, iv são vantagens iii, v são vantagens i, iii são vantagens ii, iv, v são vantagens",
+      "Funcional, pois os casos de teste abrangem os requisitos de negócio do usuário para o sistema.",
+      "Não funcionais, pois medem o desempenho do sistema.",
+      "Funcional, porque os casos de teste interagem com a interface do usuário.",
+      "Teste caixa-branca, pois precisamos conhecer a estrutura interna do programa para medir o tempo de processamento do pedido.",
+      "b)",
+      "d) Testes de manutenção Teste de regressão Testes de confiabilidade Testes de integração",
+      "b)",
+      "d) Os itens i e iv podem ser revisados. Os itens i, ii, iii e iv podem ser revisados. i, ii, iii e v podem ser revisados. iii, iv, v podem ser revisados",
+      "b)",
+      "d) Com esse teste, é mais fácil identificar comportamentos externos anormais. Discrepâncias em relação a um padrão de codificação são mais fáceis de encontrar com este teste. Ele identifica falhas causadas por defeitos durante a execução do software. O objetivo do teste é identificar defeitos o mais cedo possível. A falta de cobertura para requisitos críticos de segurança é mais fácil de identificar e corrigir. i, iv, v são verdadeiros para testes estáticos. i, iii e iv são verdadeiros para testes estáticos. ii e iii são verdadeiras para testes estáticos. ii, iv e v são verdadeiras para testes estáticos.",
+      "Algumas avaliações não exigem mais de uma função.",
+      "O processo de revisão possui diversas atividades.",
+      "A documentação a ser analisada não é distribuída antes da reunião de revisão, com exceção do produto do trabalho para tipos de revisão específicos.",
+      "Os defeitos encontrados durante a revisão não são relatados, pois não são detectados pelos testes dinâmicos.",
+      "b)",
+      "d) Assumir a responsabilidade geral pela revisão. Decidir o que deve ser revisto. Garantir o bom funcionamento das reuniões de avaliação e moderá-las, se necessário. Registrar informações de revisão, como decisões de revisão.",
+      "b)",
+      "d) 11, 12, 13 10, 12, 14 10, 11, 12, 13, 14 10, 11, 13, 14",
+      "Se um programa incluir apenas ramificações incondicionais, então uma cobertura de ramificação de 100% pode ser alcançada sem executar nenhum caso de teste.",
+      "Se os casos de teste exercitarem todos os ramos incondicionais no código, então será alcançada uma cobertura de ramos de 100%.",
+      "Se a cobertura de extratos atingir 100%, então a cobertura de agências também atingirá 100%.",
+      "Se for alcançada uma cobertura de 100% dos ramos, então todos os resultados de decisão em cada instrução de decisão no código serão executados.",
+      "b)",
+      "d) Caixa preta Exploratório Baseado em lista de verificação Erro de adivinhação",
+      "As histórias de usuário são criadas por testadores e desenvolvedores e, em seguida, aprovadas pelos representantes da empresa.",
+      "As histórias de usuário são criadas em conjunto por representantes de negócios, desenvolvedores e testadores.",
+      "As histórias de usuário são criadas por representantes da área de negócios e verificadas por desenvolvedores e testadores.",
+      "As histórias de usuário são criadas de forma a serem independentes, negociáveis, valiosas, estimáveis, pequenas e testáveis.",
+      "b)",
+      "d) Comunicação Registro de riscos Contexto do teste Abordagem de teste",
+      "b)",
+      "d) O Product Owner precisa intervir e tomar a decisão final. Aceitar 13 como a estimativa final do teste, pois este valor obteve a maioria dos votos. Nenhuma outra ação é necessária. Chegou-se a um consenso. Remova o novo recurso da versão atual, pois ainda não se chegou a um consenso.",
+      "Isso enfatiza a importância de se ter muito mais testes nos níveis mais baixos de avaliação.",
+      "Isso sugere que cada teste de baixo nível verifica grande parte da funcionalidade.",
+      "Este documento descreve a distribuição dos tipos de teste ao longo do ciclo de vida de desenvolvimento de software (SDLC).",
+      "Isso não tem impacto na construção de testes automatizados.",
+      "É também muito elevado. Um alto impacto de risco implica sempre uma alta probabilidade de risco.",
+      "É muito baixo. Alto impacto de risco sempre implica baixa probabilidade de risco.",
+      "Não se pode afirmar nada sobre a probabilidade do risco. O impacto do risco e a probabilidade do risco são independentes.",
+      "A probabilidade de risco não é importante quando o impacto é tão elevado. Não é necessário defini-la.",
+      "b)",
+      "d) i e iv são riscos do projeto iv e v são riscos do projeto eu, iii são riscos do projeto ii, v são riscos do projeto",
+      "O gerente de testes monitora e reporta diariamente o nível de todos os riscos conhecidos , para que os stakeholders possam tomar uma decisão informada sobre a data de lançamento.",
+      "Um dos riscos identificados foi a \" falta de suporte a bancos de dados de código aberto \", então a equipe decidiu integrar o sistema a um banco de dados de código aberto.",
+      "Durante a análise quantitativa de riscos, a equipe estimou o nível total de todos os riscos identificados e o apresentou como o risco residual total antes dos testes.",
+      "A avaliação de riscos revelou um nível muito alto de riscos de desempenho, portanto, decidiu-se realizar testes detalhados de eficiência de desempenho logo no início do ciclo de vida de desenvolvimento de software (SDLC).",
+      "b)",
+      "d)",
+      "Número de defeitos encontrados durante os testes do sistema Esforço total no projeto de testes dividido pelo número de casos de teste projetados. Número de procedimentos de teste executados Número de defeitos encontrados dividido pelo tamanho do produto. Tempo necessário para reparar um defeito",
+      "b)",
+      "d) Obstáculos aos testes Cobertura de agências alcançada Progresso do teste Novos riscos dentro do ciclo de testes"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto. A automação de testes não introduz regressões desconhecidas na produção b) Está correto. A alocação incorreta de esforços para manter o software de teste é um risco c) Não está correto. As ferramentas de teste devem ser selecionadas de forma que elas e seus recursos de teste sejam confiáveis d) Não está correto. O objetivo principal da automação de testes é reduzir os testes manuais. Portanto, isso é um benefício, não um risco Versão encontrada."
+  },
+  {
+    "id": 70,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q1] Qual das seguintes opções é um exemplo de por que os testes são necessários?",
+    "opcoes": [
+      "Os testes dinâmicos aumentam a qualidade ao fazer com que os objetos de teste falhem de maneiras que os usuários jamais conseguiriam reproduzir.",
+      "Os testes estáticos são usados pelos desenvolvedores para identificar falhas em seu código mais cedo do que seria possível por meio de testes dinâmicos.",
+      "A análise estática fornece aos clientes evidências de que os elementos do sistema que não geram resultados estão aptos para serem lançados.",
+      "As revisões aumentam a qualidade das especificações de requisitos e levam a uma menor necessidade de alterações nos produtos de trabalho derivados."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) está correto. Muitas vezes é possível usar testes dinâmicos para fazer com que um objeto de teste falhe de maneiras que os usuários jamais conseguiriam reproduzir, como por meio de injeção de falhas. No entanto, se a falha nunca ocorrer com usuários reais, identificá-la não é particularmente valioso, já que o objetivo final dos testes é aprimorar o produto final para os usuários. Gastar tempo testando falhas que não podem ocorrer com usuários reais não é um uso eficiente do tempo do testador. b) está correto. Os testes estáticos, na forma de análise estática, são usados pelos desenvolvedores para identificar defeitos em seu código mais cedo do que seria possível com testes dinâmicos. Observe, no entanto, que os testes estáticos (e a análise estática) são usados para detectar defeitos, não falhas, que são encontradas pelos testes dinâmicos. Portanto, é o uso do termo \"falhas\" que torna essa opção incorreta. c) está correto. A análise estática detecta diretamente defeitos no código, e essa informação normalmente é destinada ao desenvolvedor, não ao cliente. d) Está correto. As revisões são uma forma de teste estático que pode ser aplicada desde o início do ciclo de vida do desenvolvimento de software e são usadas para encontrar defeitos que podem ser corrigidos antes que as atividades de desenvolvimento subsequentes desperdicem esforços com requisitos falhos. Se os defeitos não forem detectados e corrigidos precocemente, quando forem encontrados em produtos derivados, como o projeto e o código, os requisitos precisarão ser alterados."
+  },
+  {
+    "id": 71,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q2] Qual das seguintes afirmações sobre garantia da qualidade (GQ) e/ou controle da qualidade (CQ)\nestá correta?",
+    "opcoes": [
+      "b)",
+      "d) O controle de qualidade é realizado como parte dos testes. Os testes são realizados como parte do controle de qualidade. Testar é outro termo para controle de qualidade. Os testes são realizados como parte do controle de qualidade."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. A Garantia da Qualidade (QA) concentra-se na melhoria e implementação de processos, utilizando uma abordagem preventiva para evitar erros e defeitos, enquanto os testes são uma forma de Controle de Qualidade (QC) utilizada para detectar defeitos. b) Está correto. O controle de qualidade visa atingir níveis adequados de qualidade, concentrando-se na identificação e correção de defeitos do produto. Os testes são uma parte significativa do controle de qualidade e ajudam a detectar esses defeitos. c) está correto. Embora os testes sejam uma parte significativa do controle de qualidade e ajudem a descobrir defeitos, outras técnicas (não relacionadas a testes) utilizadas no controle de qualidade incluem métodos formais como verificação de modelos e prova de correção, bem como simulação e prototipagem. d) está correto. A Garantia da Qualidade (QA) concentra-se na melhoria e implementação de processos, utilizando uma abordagem preventiva para evitar erros e defeitos, enquanto os testes são uma forma de Controle de Qualidade (QC) utilizada para detectar defeitos."
+  },
+  {
+    "id": 72,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q3] Um dos 'princípios de teste' afirma que o teste exaustivo é impossível. Qual das seguintes opções\né um exemplo de como esse princípio é abordado na prática?",
+    "opcoes": [
+      "Criar casos de teste que cubram todas as saídas especificadas possíveis.",
+      "Documentar todas as variações possíveis de entrada de teste e priorizá-las com base na importância.",
+      "Comece os testes o mais cedo possível com revisões e outras abordagens de testes estáticos.",
+      "Utilizando particionamento de equivalência e análise de valores limite para gerar casos de teste."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) está correto. O princípio afirma que não é viável testar tudo, exceto em casos triviais. Testar tudo exigiria testar todas as variações possíveis de entradas em todas as circunstâncias diferentes, o que geralmente é inviável, pois haveria um número praticamente infinito de possibilidades. Testar todos os resultados esperados possíveis não resolverá esse problema, pois a relação entre entradas e resultados esperados pode ser diferente para cada objeto de teste. Às vezes, pode haver um número praticamente infinito de resultados esperados possíveis (por exemplo, quando há várias variáveis representando números reais), enquanto em outras ocasiões pode haver apenas dois resultados esperados, como no caso de uma única variável que pode ser verdadeira ou falsa. b) está correto. O princípio afirma que não é viável testar todas as variações possíveis de entradas em todas as circunstâncias diferentes. Isso ocorre porque, para sistemas não triviais, existe um número praticamente infinito de variações. Portanto, na prática, documentar todas as variações de entrada possíveis seria impraticável, pois levaria um tempo infinito. c) está correto. Iniciar os testes o mais cedo possível com revisões e outras abordagens de testes estáticos não resolverá o problema do excesso de casos de teste possíveis. O princípio de que \"testar cedo economiza tempo e dinheiro\" visa corrigir defeitos logo no início para evitar o surgimento de defeitos subsequentes em produtos derivados, reduzindo assim custos e a probabilidade de falhas. April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta pergunta correta (# ) Explicação/Justificativa"
+  },
+  {
+    "id": 73,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q4] Qual atividade de teste envolve trabalhar com requisitos de dados de teste, condições de teste,\nrequisitos de ambiente de teste e casos de teste?",
+    "opcoes": [
+      "b)",
+      "d) Projeto de teste Execução de teste Análise de teste Implementação de teste"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O projeto de testes envolve o uso de condições de teste para criar casos de teste e outros recursos necessários, como requisitos de dados de teste e roteiros de testes exploratórios. Os requisitos do ambiente de teste também são especificados, incluindo a infraestrutura e as ferramentas necessárias. b) está correto. A execução de testes envolve a execução de casos de teste (como parte dos procedimentos de teste), porém não abrange diretamente os outros aspectos do software de teste mencionados na pergunta, como requisitos de dados de teste, requisitos de ambiente de teste e condições de teste. c) está correto. A análise de testes é usada para identificar as funcionalidades que precisam ser testadas. A base de testes é analisada e definida como condições de teste, que são então priorizadas juntamente com os riscos associados. Embora essa atividade envolva o trabalho com condições de teste, ela não abrange os outros elementos de teste mencionados na pergunta, como requisitos de dados de teste, requisitos de ambiente de teste e casos de teste. d) está correto. A implementação de testes inclui a geração de procedimentos de teste, como scripts de teste manuais e automatizados, que são criados a partir de casos de teste e podem ser agrupados em suítes de teste. Os procedimentos de teste são priorizados e organizados em um cronograma de execução de testes. Os dados de teste são criados, o ambiente de teste é construído e sua configuração é verificada. Embora essa atividade envolva explicitamente o trabalho com casos de teste e possa usar requisitos de dados e de ambiente de teste para criar os dados e o ambiente de teste, ela não abrange as condições de teste."
+  },
+  {
+    "id": 74,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q5] Qual das seguintes opções tem MAIOR probabilidade de impactar a forma como os testes são\nrealizados para um determinado objeto de teste?",
+    "opcoes": [
+      "b)",
+      "d) O nível médio de experiência da equipe de marketing da organização. O conhecimento dos usuários de que um novo sistema está sendo desenvolvido para eles. O número de anos de experiência dos membros da equipe de testes. Estrutura organizacional do usuário final para um aplicativo comercial de streaming de música."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) está correto. É improvável que a equipe de marketing da organização realize muitos testes (embora em algumas organizações eles possam estar envolvidos com testes de aceitação), portanto, seu nível médio de experiência (a maior parte da qual seria em marketing) provavelmente não impactará a forma como os testes são realizados para um determinado objeto de teste. b) está correto. O nível de conhecimento dos usuários sobre o novo sistema que está sendo desenvolvido para eles provavelmente não afetará a forma como os testes são realizados. Qualquer envolvimento do usuário que possa afetar a execução dos testes provavelmente resultará de decisões tomadas pelos testadores, pelo cliente e pelo gerente de projeto. c) Está correto. O número de anos de experiência dos membros da equipe de testes de eficiência de desempenho ajudará a determinar as capacidades e o conhecimento (por exemplo, de diferentes ferramentas e tipos de defeitos) que os membros da equipe aplicarão ao realizar os testes. d) está correto. A estrutura organizacional dos diferentes usuários finais (que podem ser variados) muda entre os usuários. Portanto, pode nem ser possível saber, durante o teste da aplicação, que a estrutura organizacional do usuário final terá pouca influência sobre a execução dos testes."
+  },
+  {
+    "id": 75,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q6] Qual das seguintes afirmações é um exemplo CORRETO do valor da rastreabilidade?",
+    "opcoes": [
+      "A rastreabilidade entre os riscos mitigados e os casos de teste aprovados fornece um meio de determinar o nível de risco residual.",
+      "A rastreabilidade entre os requisitos do usuário e os resultados dos testes fornece um meio de medir o progresso do projeto em relação aos objetivos de negócios.",
+      "A rastreabilidade entre os testadores e os casos de teste que falharam fornece um meio de determinar o nível de habilidade dos testadores.",
+      "A rastreabilidade entre os riscos identificados e as condições de teste documentadas fornece um meio de determinar quais riscos valem a pena testar."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. A rastreabilidade entre os riscos mitigados e os casos de teste aprovados fornece pouca informação, pois para serem mitigados (por meio de testes), os riscos precisariam ter um caso de teste correspondente aprovado. Para avaliar o risco residual, é necessário haver rastreabilidade entre todos os riscos e resultados dos testes, de modo que os riscos que não possuem um teste correspondente aprovado possam ser identificados como riscos residuais. b) Está correto. A rastreabilidade entre os requisitos do usuário e os resultados dos testes indica quais requisitos do usuário foram testados e, portanto, fornece um meio de medir o progresso do projeto (no contexto de testes) em relação aos objetivos de negócio. c) está correto. Não é claro que casos de teste reprovados indiquem as habilidades do testador mais do que casos de teste aprovados. Isso dependeria, em parte, do objetivo do teste (por exemplo, gerar confiança ou provocar falhas). Além disso, essa avaliação dos testadores com base em casos de teste aprovados e reprovados pode ser contraproducente, pois poderia levar os testadores a otimizar seus testes com base nessa métrica em vez do objetivo do teste. d) está correto. A rastreabilidade entre os riscos identificados e as condições de teste escritas fornece um meio de determinar quais outras condições de teste precisam ser elaboradas. Determinar quais riscos valem a pena testar faz parte da gestão de riscos e, em particular, da mitigação de riscos."
+  },
+  {
+    "id": 76,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q7] Qual das seguintes opções é MAIS provável de ser um exemplo de um testador usando uma\nhabilidade genérica durante os testes?",
+    "opcoes": [
+      "O profundo conhecimento do testador sobre diversos jogos de computador fez com que ele se desse bem com um dos desenvolvedores, que também era fã de jogos.",
+      "O testador era um ex-piloto e, portanto, tinha melhores condições de compreender os critérios de aceite do sistema de controle do helicóptero.",
+      "O testador tinha experiência anterior como programador e utilizou suas habilidades nessa área para se comunicar melhor com os analistas de negócios.",
+      "O testador teve muito cuidado para não cometer erros ao gerar metodicamente os casos de teste antes de iniciar sua sessão de testes exploratórios."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. Habilidades de comunicação eficazes, escuta ativa e capacidade de trabalho em equipe permitem que um testador interaja efetivamente com todos os stakeholders; no entanto, um conhecimento profundo de diversos jogos de computador que lhe permitiu se dar bem com um desenvolvedor específico não é um exemplo de uma habilidade genérica útil para testadores. b) Está correto. O conhecimento do domínio, que permite compreender e comunicar com usuários finais e representantes de negócios, é uma das habilidades genéricas exigidas dos testadores. Um testador com experiência como piloto estaria mais apto a compreender os critérios de aceitação do sistema de controle do helicóptero. c) está correto. Embora habilidades de programação possam ser consideradas conhecimento técnico que aumenta a eficiência na utilização de algumas ferramentas de teste, é improvável que essas habilidades melhorem a comunicação com analistas de negócios. d) está correto. Embora meticulosidade, atenção aos detalhes, curiosidade e uma abordagem metódica para identificar defeitos difíceis de encontrar sejam habilidades genéricas úteis para testadores, é improvável que eles gerem casos de teste antes de iniciar os testes exploratórios. Isso porque um dos principais princípios dos testes exploratórios é que os casos de teste sejam gerados durante o teste, e não roteirizados antecipadamente."
+  },
+  {
+    "id": 77,
+    "capitulo": 1,
+    "enunciado": "[Simulado Oficial Set B - Q8] Qual das seguintes opções representa uma vantagem da abordagem que envolve toda a equipe?",
+    "opcoes": [
+      "b)",
+      "d) Isso permite que os membros da equipe assumam qualquer função a qualquer momento. Basta uma única equipe para dar suporte a todo o projeto de desenvolvimento. Isso integra representantes de negócios junto com desenvolvedores na mesma equipe. Isso gera uma sinergia de equipe que beneficia todo o projeto."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) está correto. A abordagem de equipe integrada permite que qualquer membro da equipe com as habilidades e o conhecimento necessários execute qualquer tarefa; no entanto, isso não significa que os membros da equipe possam assumir qualquer função a qualquer momento. Normalmente, eles assumem apenas as funções para as quais são competentes, e não há nenhuma sugestão de que todos os membros da equipe possam desempenhar todas as funções. b) está correto. A abordagem de equipe completa se aplica ao funcionamento de uma única equipe (tipicamente no desenvolvimento ágil de software); ela não abrange o trabalho conjunto de várias equipes em projetos maiores, e não sugere que apenas uma equipe \"completa\" seja necessária para um projeto inteiro. c) está correto. A abordagem de equipe multidisciplinar não exige que todos os membros da equipe participem de todas as decisões importantes. Por exemplo, não há necessidade de o representante da área de negócios (ou seja, o Product Owner) estar envolvido em todas as decisões técnicas que não afetam o resultado do negócio, e implementar tal abordagem atrasaria desnecessariamente o progresso da equipe. d) Está correto. Ao aproveitar ao máximo as diversas habilidades de cada membro da equipe, a abordagem que envolve toda a equipe fomenta uma dinâmica superior, promove uma comunicação e colaboração robustas e gera uma sinergia que beneficia todo o projeto."
+  },
+  {
+    "id": 78,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q9] Qual das seguintes afirmações sobre o ciclo de vida de desenvolvimento de software escolhido\nestá CORRETA?",
+    "opcoes": [
+      "Se o desenvolvimento ágil de software for utilizado, a automação dos testes de sistema substitui a necessidade de testes de regressão.",
+      "Se for utilizado um modelo de desenvolvimento sequencial, os testes dinâmicos normalmente ficam restritos a uma fase posterior do ciclo de vida.",
+      "Se for utilizado um modelo de desenvolvimento iterativo, os testes de componentes são normalmente realizados manualmente pelos desenvolvedores.",
+      "Se for utilizado um modelo de desenvolvimento incremental, os testes estáticos são realizados nos incrementos iniciais e os testes dinâmicos nos incrementos posteriores."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. No desenvolvimento ágil de software, as entregas são produzidas em cada iteração, e a entrega frequente de incrementos exige testes de regressão extensivos. Embora alguns (ou todos) esses testes de regressão possam ser automatizados, eles (automatizados ou não) não podem ser substituídos pela automação de testes de sistema. b) Está correto. Se um modelo de desenvolvimento sequencial for utilizado, então, no início do ciclo de vida do desenvolvimento de software, nenhum código estará disponível para execução e, portanto, durante esse período, são realizados testes estáticos (por exemplo, revisões). Mais tarde no ciclo de vida, quando o código estiver disponível para execução, os testes dinâmicos serão possíveis. Observe, no entanto, que a preparação para testes dinâmicos geralmente ocorre no início de qualquer ciclo de vida de desenvolvimento de software. c) está correto. Se um modelo de desenvolvimento iterativo, como o desenvolvimento ágil de software, for utilizado, então os testes de componentes podem ser usados para testes de regressão em cada iteração. Nesse caso, há um forte argumento para automatizar esses testes de componentes, que precisarão ser executados com frequência, e é improvável que haja um forte argumento para que os desenvolvedores realizem esses testes de componentes manualmente. d) está correto. Na maioria dos modelos de desenvolvimento incremental, as entregas são produzidas em cada incremento, exigindo testes estáticos e dinâmicos em todos os níveis de teste para cada incremento entregue."
+  },
+  {
+    "id": 79,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q10] Qual das seguintes opções é uma boa prática de teste que se aplica a todos os ciclos de vida de\ndesenvolvimento de software?",
+    "opcoes": [
+      "Os testadores devem revisar os produtos de trabalho como parte da próxima fase de desenvolvimento.",
+      "Os testadores devem revisar os produtos de trabalho assim que as versões preliminares estiverem disponíveis.",
+      "Os testadores devem revisar os produtos de trabalho antes do início da análise e do projeto de testes.",
+      "Os testadores devem revisar os produtos de trabalho imediatamente após a sua publicação."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. Os testadores devem revisar os produtos de trabalho FL-2.1.2 assim que os rascunhos estiverem disponíveis para permitir testes antecipados, como parte de uma abordagem de \"shift-left\" (deslocamento para a esquerda). Se esperassem até a próxima fase de desenvolvimento, trabalho desnecessário de desenvolvimento (e teste) poderia ser iniciado em produtos de trabalho não revisados e com falhas. b) Correto. Os testadores devem revisar os produtos de trabalho assim que os rascunhos estiverem disponíveis para permitir testes antecipados como parte de uma abordagem de \"shift-left\" (deslocamento para a esquerda). c) está correto. Os testadores normalmente revisam os produtos de trabalho que formam a base do teste como parte da análise de teste, e não antes da análise e do projeto de teste. d) está correto. Os testadores devem revisar os produtos de trabalho assim que as versões preliminares estiverem disponíveis para permitir testes antecipados, como parte da abordagem \"shift-left\". Aguardar até a publicação significa que quaisquer defeitos que possam ser encontrados pela revisão do testador estarão presentes no documento publicado."
+  },
+  {
+    "id": 80,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q11] Qual das seguintes opções é um exemplo de uma abordagem de desenvolvimento orientada a\ntestes (TDD)?",
+    "opcoes": [
+      "b)",
+      "d) Desenvolvimento orientado a testes Desenvolvimento orientado pela cobertura Desenvolvimento orientado pela qualidade Desenvolvimento orientado a funcionalidades"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O Desenvolvimento Orientado a Testes (TDD) é um exemplo bem conhecido de uma abordagem de desenvolvimento que prioriza os testes. b) está correto. O Desenvolvimento Orientado a Cobertura (Coversage-Driven Development) não é um exemplo correto de uma abordagem de desenvolvimento orientada a testes (TDD). c) está correto. O Desenvolvimento Orientado à Qualidade (QDD) não é um exemplo correto de uma abordagem de desenvolvimento baseada em testes (TDD). d) está correto. O Desenvolvimento Orientado a Funcionalidades (Feature-Driven Development) não é um exemplo de abordagem de desenvolvimento orientada a testes (TDD), mas sim uma metodologia ágil de desenvolvimento de software baseada na entrega de funcionalidades (em oposição às histórias de usuário do Scrum)."
+  },
+  {
+    "id": 81,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q12] Qual das seguintes afirmações sobre DevOps está CORRETA?",
+    "opcoes": [
+      "Para acelerar os lançamentos, a integração contínua é usada para incentivar os desenvolvedores a enviar código rapidamente, sem a necessidade de concluir os testes de componentes.",
+      "Para poder atualizar e lançar sistemas com mais frequência, são necessários muitos testes de regressão automatizados para reduzir o risco de regressão.",
+      "Para tratar desenvolvedores e operações de forma igualitária, os testadores alocarão mais esforços aos testes de lançamento realizados pelas operações, utilizando uma abordagem de deslocamento para a direita.",
+      "Para criar maior sinergia entre testadores, desenvolvedores e operações, os testes devem ser totalmente automatizados, sem testes manuais."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não é Correto. O DevOps aprimora os testes de diversas maneiras, como fornecendo feedback rápido sobre a qualidade do código, testes de regressão automatizados que minimizam o risco de regressão e promovendo uma abordagem \"shift-left\" com submissão de código de alta qualidade e testes de componentes. Isso é amplamente proporcionado pela integração contínua, onde os desenvolvedores submetem testes de componentes (unitários) com seu novo código, os quais devem ser aprovados para que o código seja admitido na compilação. Portanto, os desenvolvedores precisam realizar testes de componentes. b) Está correto. O DevOps aprimora os testes de diversas maneiras, como fornecendo feedback rápido sobre a qualidade do código, testes de regressão automatizados que minimizam o risco de regressão e promovendo uma abordagem de \"shift-left\" com submissão de código de alta qualidade e testes de componentes. c) está correto. O DevOps aprimora os testes de diversas maneiras, como fornecendo feedback rápido sobre a qualidade do código, testes de regressão automatizados que minimizam o risco de regressão e promovendo uma abordagem de \"shift-left\" com submissão de código de alta qualidade e testes de componentes. Os testadores não tentam tratar desenvolvedores e operações igualmente dedicando mais tempo aos testes de lançamento, embora uma abordagem de \"shift-right\" para testes (testes em produção) possa ser utilizada. d) está correto. Processos automatizados como integração contínua/entrega contínua (CI/CD) em DevOps facilitam ambientes de teste estáveis e reduzem a necessidade de testes manuais; no entanto, existe o risco de negligenciar a importância dos testes manuais, especialmente da perspectiva do usuário."
+  },
+  {
+    "id": 82,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q13] Qual das seguintes opções tem MAIOR probabilidade de ser realizada como parte dos testes de\nsistema?",
+    "opcoes": [
+      "Testes de segurança de um sistema de gestão de crédito realizados por uma equipe de testes independente.",
+      "Testando a interface de um sistema de câmbio com um sistema bancário externo.",
+      "Teste beta de um sistema de aprendizagem remota desenvolvido por programadores de cursos.",
+      "Testando as interações entre a interface do usuário e o banco de dados de um sistema de recursos humanos."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Os testes de sistema examinam o comportamento e as capacidades do sistema completo e abrangem testes não funcionais de características de qualidade, incluindo testes de segurança. Esse tipo de teste geralmente é realizado por uma equipe de testes independente com base nas especificações do sistema. b) está correto. O teste de integração de sistemas examina as interfaces com outros sistemas e serviços externos. c) está correto. O teste beta é um tipo de teste de aceitação realizado em um local externo por pessoas que não fazem parte da equipe de desenvolvimento. d) está correto. O teste de integração de componentes envolve testar as interfaces e interações entre os componentes de um sistema, como a interface do usuário e o banco de dados."
+  },
+  {
+    "id": 83,
+    "capitulo": 2,
+    "enunciado": "[Simulado Oficial Set B - Q14] Qual das seguintes afirmações está CORRETA?",
+    "opcoes": [
+      "O número de testes de regressão aumenta à medida que o projeto avança, enquanto o número de testes de confirmação diminui com o mesmo período.",
+      "Os testes de regressão são criados e executados quando o objeto de teste é corrigido, enquanto os testes de confirmação são executados sempre que o objeto de teste é aprimorado.",
+      "Os testes de regressão visam verificar se o ambiente operacional permanece inalterado, enquanto os testes de confirmação visam testar as alterações feitas no objeto de teste.",
+      "Os testes de regressão se concentram nos efeitos adversos em código inalterado, enquanto os testes de confirmação se concentram em testar código modificado."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) está correto. O número de testes de regressão aumenta à medida que o projeto avança, pois novos testes de regressão são normalmente necessários conforme alterações são feitas no sistema. Da mesma forma, o número de testes de confirmação também costuma aumentar conforme o projeto avança, pois novos testes de confirmação são necessários para cada correção feita no sistema. b) está correto. É o contrário. Os testes de confirmação são criados e executados quando o objeto de teste é corrigido, e os testes de regressão são (idealmente) executados sempre que o objeto de teste é aprimorado (alterado). c) está correto. O teste de confirmação verifica se um defeito foi corrigido corretamente e, portanto, se concentra em testar as alterações no objeto de teste. Já o teste de regressão garante que as alterações (incluindo alterações no ambiente operacional) não tenham efeitos negativos no software não alterado e, portanto, não verifica se o ambiente operacional permanece inalterado. d) Está correto. Os testes de regressão garantem que as alterações não tenham efeitos negativos no software não alterado. Os testes de confirmação verificam se um defeito foi corrigido e, portanto, se concentram no código alterado."
+  },
+  {
+    "id": 84,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set B - Q15] Qual das seguintes opções é um exemplo de defeito que pode ser encontrado por meio de testes\nestáticos, mas NÃO por meio de testes dinâmicos?",
+    "opcoes": [
+      "b)",
+      "d) Falta de usabilidade proporcionada pela interface do usuário Código sem caminho que o alcance Tempos de resposta lentos para a maioria dos usuários esperados. Funcionalidades obrigatórias que não estão implementadas no código."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. A falta de usabilidade proporcionada pela interface do usuário pode ser detectada por meio de uma revisão utilizando uma lista de verificação adequada, mas também pode ser identificada solicitando a vários usuários típicos que testem a interface dinamicamente e forneçam feedback sobre sua usabilidade. b) Está correto. Uma revisão de código pode detectar trechos de código inacessíveis por qualquer caminho, enquanto testes dinâmicos só podem exercitar trechos de código acessíveis e não conseguem determinar que um trecho de código é inacessível sem executar todas as combinações possíveis de entradas e estados de entrada, o que é impraticável para código real. c) está correto. Tempos de resposta ruins para a maioria dos usuários esperados são difíceis de determinar sem executar o código (ou seja, por meio de testes estáticos), portanto, nessa situação, testes dinâmicos poderiam encontrar um defeito, mas é improvável que testes estáticos o encontrem. d) está correto. Uma revisão do código por alguém que conheça os recursos necessários poderia detectar que esses recursos não foram implementados, e testes dinâmicos também poderiam ser usados para confirmar essa ausência."
+  },
+  {
+    "id": 85,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set B - Q16] Qual das seguintes opções representa um benefício do feedback frequente e antecipado dos\nstakeholders?",
+    "opcoes": [
+      "b)",
+      "d) Os gerentes sabem quais desenvolvedores são menos produtivos. Isso permite que os gerentes de projeto priorizem suas interações com os stakeholders. Isso facilita a comunicação precoce de possíveis problemas de qualidade. finais compreendem melhor os motivos do atraso na entrega do produto."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) está correto. O feedback vem de stakeholders (por exemplo, representantes de negócios e usuários finais), não de desenvolvedores, portanto, é improvável que esse feedback informe aos gerentes quais desenvolvedores são mais ou menos produtivos. b) está correto. O feedback precoce e frequente dos stakeholders não é utilizado pelos gerentes de projeto para priorizar a forma como interagem com as diferentes stakeholders. c) Está correto. Obter feedback dos stakeholders desde o início e com frequência no processo de desenvolvimento de software pode ser extremamente benéfico, pois facilita a comunicação precoce de potenciais problemas de qualidade, pode evitar mal-entendidos sobre os requisitos e garante que quaisquer alterações nos requisitos dos stakeholders sejam compreendidas e implementadas mais rapidamente. d) está correto. O feedback antecipado e frequente pode evitar o desenvolvimento de um produto que não atenda às necessidades dos stakeholders, resultando em retrabalho dispendioso e prazos perdidos; portanto, o ideal seria que não houvesse atrasos. Além disso, o feedback vem dos stakeholders (e não é direcionado a elas), incluindo os usuários finais, logo, o feedback dos usuários finais não contribuirá para a compreensão do produto por parte dos usuários finais."
+  },
+  {
+    "id": 86,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set B - Q17] Dadas as seguintes descrições de tarefas:\n1. As características de qualidade a serem avaliadas e os critérios de saída são\nselecionados.\n2. Todos têm acesso ao produto do trabalho.\n3. Anomalias são identificadas no produto do trabalho.\n4. As anomalias são discutidas.\nE as seguintes atividades de revisão\nA. Revisão individual\nB. Início da revisão\nC. Planejamento\nD. Comunicação e análise\nQual das seguintes opções MELHOR corresponde às descrições das tarefas e atividades?",
+    "opcoes": [
+      "b)",
+      "d) 1B, 2C, 3D, 4A 1B, 2D, 3C, 4A 1C, 2A, 3B, 4D 1C, 2B, 3A, 4D"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Não está correto d) Está correto. A correspondência correta é : 1C, 2B, 3A, 4D April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa Objetivo de pergunta correta Aprendizagem (# ) (OA) 18 c Considerando cada uma das funções listadas: FL-3.2.3 1. Secretário (ou Registrador) - responsável por coletar o feedback dos revisores e documentar as informações da revisão, como as decisões tomadas e quaisquer novas anomalias identificadas durante a reunião de revisão. (Registra informações da revisão, como decisões e novas anomalias encontradas durante a reunião de revisão - B) 2. Líder de Revisão - responsável por supervisionar o processo de revisão, incluindo a seleção dos membros da equipe de revisão, o agendamento de reuniões de revisão e a garantia de que a revisão seja concluída com sucesso. (Assume a responsabilidade geral pela revisão, incluindo a organização de quando e onde a revisão ocorrerá - D) 3. Facilitador (ou Moderador) - responsável por garantir que as reuniões de avaliação sejam conduzidas de forma eficaz, incluindo a gestão do tempo, a mediação das discussões e a criação de um ambiente seguro onde todos possam expressar livremente as suas opiniões. (Garante o bom funcionamento das reuniões de avaliação e a criação de um ambiente seguro para a avaliação - A) 4. Gerente - responsável por decidir o que precisa ser revisado e alocar recursos, como pessoal e tempo, para a revisão. (Dcide o que deve ser revisado e fornece recursos, como pessoal e tempo para a revisão - C)"
+  },
+  {
+    "id": 87,
+    "capitulo": 3,
+    "enunciado": "[Simulado Oficial Set B - Q18] Considerando os seguintes papéis nas avaliações:\n1. Escriba\n2. Líder da revisão\n3. Facilitador\n4. Gerente\nE as seguintes responsabilidades nas avaliações :\nA. Garante o bom funcionamento das reuniões de avaliação e a criação de um ambiente\nseguro para a avaliação.\nB. Informações de revisão de registros, como decisões e novas anomalias encontradas\ndurante a reunião de revisão.\nC. Decide o que deve ser analisado e fornece recursos, como pessoal e tempo para a\nanálise.\nD. Assume a responsabilidade geral pela revisão, incluindo a organização de quando e\nonde ela ocorrerá.\nQual das seguintes opções MELHOR descreve as funções e responsabilidades?",
+    "opcoes": [
+      "b)",
+      "d) 1A, 2B, 3D, 4C 1A, 2C, 3B, 4D 1B, 2D, 3A, 4C 1B, 2D, 3C, 4A"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Está correto. A correspondência correta é : 1B, 2D, 3A, 4C d) Não está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas"
+  },
+  {
+    "id": 88,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q19] Qual das seguintes afirmações descreve MELHOR a diferença entre testes de tabela de decisão e\ntestes de ramificação?",
+    "opcoes": [
+      "Em testes de tabela de decisão, os casos de teste são derivados das instruções de decisão no código. Em testes de ramificação, os casos de teste são derivados do conhecimento do fluxo de controle do objeto de teste.",
+      "Nos testes de tabela de decisão, os casos de teste são derivados da especificação que descreve a lógica de negócios. Nos testes de ramificação, os casos de teste são baseados na antecipação de possíveis defeitos no código-fonte.",
+      "Em testes de tabela de decisão, os casos de teste são derivados do conhecimento do fluxo de controle do objeto de teste. Em testes de ramificação, os casos de teste são derivados da especificação que descreve a lógica de negócios.",
+      "Em testes de tabela de decisão, os casos de teste são independentes de como o software é implementado. Em testes de ramificação, os casos de teste só podem ser criados após o projeto ou a implementação do código."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) está correto. O teste de tabela de decisão é uma técnica de teste caixa-preta, não caixa-branca – os casos de teste não são baseados nas decisões do código-fonte. No teste de ramificação, os casos de teste são derivados do conhecimento do fluxo de controle do objeto de teste. b) está correto. A antecipação de possíveis defeitos é usada na detecção de erros (uma técnica de teste baseada em experiência), e não no teste de ramificação (uma técnica de teste caixa-branca). No teste de tabela de decisão, os casos de teste são derivados da especificação que descreve a lógica de negócios. c) está correto. Se um caso de teste se baseia no conhecimento do fluxo de controle do objeto de teste, trata-se de uma técnica de teste caixa-branca. O teste de tabela de decisão, por sua vez, geralmente se baseia na análise da lógica de negócios, sendo, portanto, uma técnica de teste caixa-preta. No teste de ramificação, os casos de teste não são derivados da especificação. O teste de ramificação é uma técnica de teste caixa-branca, na qual os casos de teste são derivados com base na estrutura do código-fonte. d) Está correto. O teste de tabela de decisão é uma técnica de teste caixa-preta, portanto, baseia-se na análise do comportamento especificado do objeto de teste sem referência à sua estrutura interna. Consequentemente, os casos de teste são independentes de como o software é implementado. O teste de ramificação é uma técnica de teste caixa-branca, portanto, os casos de teste baseiamse na análise da estrutura interna e do processamento do objeto de teste. Como os casos de teste dependem de como o software é projetado e codificado, eles só podem ser criados após o projeto ou a implementação do objeto de teste."
+  },
+  {
+    "id": 89,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q20] Os clientes da rede de lava-jatos TestWash possuem cartões com um registro do número de\nlavagens já realizadas. O valor inicial é 0. Ao entrar no lava-jato, o sistema incrementa o número\nno cartão em um. Esse valor representa a lavagem atual. Com base nesse número, o sistema\ndetermina o desconto a que o cliente tem direito.\nA cada décima lavagem, o sistema oferece um desconto de 10%, e a cada vigésima lavagem, o\nsistema oferece um desconto adicional de 40% (ou seja, um desconto total de 50%).\nQual dos seguintes conjuntos de dados de entrada (entendidos como os números da lavagem\natual) atinge a maior cobertura de partição de equivalência?",
+    "opcoes": [
+      "b)",
+      "d) 19, 20, 30 11, 12, 20 1, 10, 50 10, 29, 30, 31"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O valor 19 abrange a partição \"sem desconto\", o valor 20 abrange a partição \"50% de desconto\" e o valor 30 abrange a FL-4.1.1 K2 1 FL-4.2.1 K3 1 April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta pergunta correta (# ) Explicação/Justificativa"
+  },
+  {
+    "id": 90,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q21] Você está testando um formulário que verifica se o comprimento da senha inserida está correto. O\nformulário aceita senhas com o comprimento correto e rejeita senhas muito curtas ou muito\nlongas. A senha é considerada correta se tiver entre 6 e 12 caracteres, inclusive. Caso contrário, é\nconsiderada incorreta.\nInicialmente, o formulário está vazio (comprimento da senha = 0). Você aplica a análise de valores\nlimite à variável \"comprimento da senha\".\nSeu conjunto de casos de teste atinge 100% de cobertura de valores limite de 2 valores. A equipe\ndecidiu que, devido ao alto risco deste componente, casos de teste adicionais devem ser incluídos\npara garantir 100% de cobertura de valores limite de 3 valores.\nQuais comprimentos de senha adicionais devem ser testados para atingir esse objetivo?",
+    "opcoes": [
+      "b)",
+      "d) 4, 5, 13, 14 7, 11 1, 5, 13 1, 4, 7, 11, 14"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Não está correto d) Está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 22 b A tabela de decisão possui cinco colunas. Cada caso de teste abrange uma delas. TC1 e TC2 abrangem a Regra 4. TC3 e TC4 abrangem a Regra 2. TC5 abrange a Regra 5 Portanto, esses cinco casos de teste cobrem três das cinco colunas, atingindo uma cobertura de (3/5 ) * 100% = 60%. Portanto, a opção b) é a opção CORRETA."
+  },
+  {
+    "id": 91,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q22] A tabela de decisão a seguir contém as regras para determinar o risco de aterosclerose.\nCondições\nColesterol (mg/dl)\nPressão arterial (mm Hg)\nAção\nNível de risco\nRegra 1\nRegra 2\nRegra 3\nRegra 4\nRegra 5\n≤124\n≤ 140\n≤ 124\n> 140\n125 – 200\n≤ 140\n125 – 200\n> 140\n≥ 201\n–\nmuito baixo\nbaixo\nmédio\nalto\nmuito alto\nVocê elaborou os casos de teste com os seguintes dados de entrada:\nTC1 :\nTC2 :\nTC3 :\nTC4 :\nTC5:\nColesterol = 125 mg/dl\nColesterol = 200 mg/dl\nColesterol = 124 mg/dl\nColesterol = 109 mg/dl\nColesterol = 201 mg/dl\nPressão arterial = 141 mmHg\nPressão arterial = 201 mmHg\nPressão arterial = 201 mmHg\nPressão arterial = 200 mmHg\nPressão arterial = 140 mmHg\nQual é a cobertura da tabela de decisão alcançada por esses casos de teste?",
+    "opcoes": [
+      "b)",
+      "d) 40% 60% 80% 100%"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas"
+  },
+  {
+    "id": 92,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q23] Um sistema de armazenamento pode armazenar até três elementos e é modelado pelo seguinte\ndiagrama de transição de estados. A variável N representa o número de elementos atualmente\narmazenados.\nQual dos seguintes casos de teste, representados como sequências de eventos, atinge o nível\nmais alto de cobertura de transições válidas?",
+    "opcoes": [
+      "b)",
+      "d) Adicionar, Remover, Adicionar, Adicionar, Adicionar Adicionar, Adicionar, Adicionar, Adicionar, Remover, Remover Adicionar, Adicionar, Adicionar, Remover, Remover Adicionar, Adicionar, Adicionar, Remover, Adicionar"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Está correto d) Não está correto"
+  },
+  {
+    "id": 93,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q24] Você executou dois casos de teste, T1 e T2, no mesmo código. O teste T1 alcançou 40% de\ncobertura de instruções e o teste T2 alcançou 65% de cobertura de instruções.\nQual das seguintes afirmações é necessariamente verdadeira?",
+    "opcoes": [
+      "O conjunto de testes composto pelos testes T1 e T2 atinge 105% de cobertura de instruções.",
+      "Existe pelo menos uma declaração que deve ter sido executada tanto por T1 quanto por T2.",
+      "Pelo menos 5% das instruções no código testado não são executáveis.",
+      "O conjunto de testes composto pelos testes T1 e T2 atinge cobertura completa de ramificação."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. A cobertura é sempre definida como a porcentagem dos elementos cobertos. Portanto, não pode exceder 100%. b) Está correto. Se as instruções executadas por T1 e T2 fossem disjuntas , a cobertura do conjunto de testes {T1, T2} seria de 105%, o que é impossível (veja a resposta a). Portanto, pelo menos 5% das instruções executáveis devem ter sido executadas por T1 e T2. c) está correto. A cobertura de instruções não nos informa nada sobre o número de instruções não executáveis no código. d) está correto. Mesmo que um conjunto de testes atinja cobertura total de instruções, isso não implica em cobertura total de ramificações. April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa Objetivo de pergunta correta Aprendizagem (# ) (OA) 25 c O teste de ramificação é uma técnica de teste caixa-branca na qual os FL-4.3.2 itens de cobertura são ramificações. Uma ramificação é uma transferência de controle entre dois nós no grafo de fluxo de controle, que mostra as possíveis sequências em que as instruções do códigofonte são executadas no objeto de teste. Cada transferência de controle pode ser incondicional (ou seja, código em linha reta) ou condicional (ou seja, um resultado de decisão). A cobertura é medida como o número de ramificações executadas pelos casos de teste dividido pelo número total de ramificações e é expressa em porcentagem."
+  },
+  {
+    "id": 94,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q25] Vamos definir a métrica de cobertura de ramificação como BCov = (X / Y) * 100%.\nO que X e Y representam nesta fórmula?",
+    "opcoes": [
+      "X = número de resultados de decisão exercidos pelos casos de teste Y = número total de resultados de decisão no código",
+      "X = número de ramificações condicionais exercidas pelos casos de teste Y = número total de ramificações no código",
+      "X = número de ramificações exercitadas pelos casos de teste Y = número total de ramificações no código",
+      "X = número de ramificações condicionais exercidas pelos casos de teste Y = número total de resultados de decisão no código"
+    ],
+    "resposta_correta": 2,
+    "justificativa": "a) está correto. O resultado de uma decisão é uma ramificação condicional. Para testes de ramificação, X contabiliza não apenas ramificações condicionais, mas também incondicionais. b) está correto. A cobertura de ramificação contabiliza não apenas ramificações condicionais, mas também incondicionais. c) Está correto. A cobertura de ramificação é medida como o número de ramificações exercitadas pelos casos de teste dividido pelo número total de ramificações e é expressa em porcentagem. d) está correto. Tanto X quanto Y contabilizam apenas os ramos condicionais e não levam em consideração os ramos incondicionais. April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 26 a, e Os testes exploratórios são úteis quando há poucas especificações ou especificações inadequadas, ou quando existe uma pressão significativa de tempo para a realização dos testes. Eles também são úteis como complemento a outras técnicas de teste mais formais. Os testes exploratórios serão mais eficazes se o testador for experiente, possuir conhecimento da área e um alto grau de habilidades essenciais, como capacidade analítica, curiosidade e criatividade."
+  },
+  {
+    "id": 95,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q26] Quais das DUAS afirmações a seguir fornecem a MELHOR justificativa para o uso de testes\nexploratórios?",
+    "opcoes": [
+      "Os testadores não tiveram tempo suficiente para o planejamento e a execução dos testes.",
+      "A estratégia de teste existente exige que os testadores usem técnicas formais de teste caixa-preta.",
+      "A especificação é escrita em uma linguagem formal que pode ser processada por uma ferramenta.",
+      "Os testadores são membros de uma equipe ágil e possuem boas habilidades de programação.",
+      "Os testadores têm experiência na área de negócios e possuem boas habilidades analíticas."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Os testes exploratórios são úteis quando há poucas especificações ou especificações inadequadas, ou quando há uma pressão significativa de tempo para a realização dos testes. b) está correto. O teste exploratório não é uma técnica de teste caixapreta. c) está correto. Os testes exploratórios são úteis quando as especificações são mal escritas. d) está correto. Habilidades de programação não têm nada a ver com testes exploratórios, em princípio. e) Está correto. Os testes exploratórios serão mais eficazes se o testador for experiente, tiver conhecimento da área e um alto grau de habilidades essenciais, como capacidade analítica, curiosidade e criatividade. April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 27 d"
+  },
+  {
+    "id": 96,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q27] Qual das seguintes opções MELHOR se encaixa como um elemento da lista de verificação usada\nem testes baseados em listas de verificação?",
+    "opcoes": [
+      "b)",
+      "d) “O desenvolvedor cometeu um erro ao implementar o código” “A cobertura da declaração alcançada ultrapassa 85%” “O programa funciona corretamente em relação aos requisitos funcionais e não funcionais” “As mensagens de erro são escritas em uma linguagem que o usuário possa entender.”"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) está correto. As listas de verificação devem conter as condições de teste a serem verificadas. Este é um exemplo de erro, não de condição de teste; mesmo que o testador tenha conseguido deduzir algumas condições de teste potenciais a partir dos exemplos de erros, esta descrição de erro é muito genérica. b) está correto. Listas de verificação não devem conter itens mais adequados como critérios de saída. Este é um exemplo de critério de saída. c) está correto. As listas de verificação não devem conter itens muito genéricos. Este é um item muito genérico, que praticamente descreve um objetivo de teste. d) Está correto. Este é um exemplo de uma condição de teste que pode ser verificada por um ser humano. 28 b"
+  },
+  {
+    "id": 97,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q28] Considere os seguintes critérios de aceite para uma história de usuário escrita da perspectiva do\nproprietário de uma loja online.\nConsiderando que o usuário está conectado e na página inicial,\nQuando o usuário clicar no botão \"Adicionar Item\",\nEm seguida, o formulário \"Criar Item\" deverá aparecer.\nE o usuário deverá poder inserir um nome e um preço para o novo item.\nEm que formato estão escritos esses critérios de aceite?",
+    "opcoes": [
+      "b)",
+      "d) Orientado por regras Orientado a cenários Orientado para o produto Orientado a processos"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. O formato orientado a regras inclui formatos como listas de verificação com marcadores ou tabelas de mapeamento de entrada e saída, mostrando explicitamente as regras a serem seguidas. Dado/Quando/Então é um formato orientado a cenários porque descreve um cenário a ser verificado. b) Está correto. Este é um formato Dado/Quando/Então, que é orientado a cenários. c) está correto. Não existe um formato de critérios de aceitação \"orientado ao produto\". d) está correto. Não existe um formato de critérios de aceitação \"orientado a processos\"."
+  },
+  {
+    "id": 98,
+    "capitulo": 4,
+    "enunciado": "[Simulado Oficial Set B - Q29] Sua equipe analisa a seguinte história de usuário para definir os critérios de aceite:\nComo cliente cadastrado, quero poder visualizar meus pedidos anteriores no site da\nempresa para acompanhar minhas compras.\nQual dos seguintes casos de teste NÃO será relevante para esta história de usuário?",
+    "opcoes": [
+      "Entrada: o cliente acessa sua conta no site e clica no botão “ver histórico de pedidos”. Resultado esperado : o sistema exibe uma lista de todos os pedidos anteriores do cliente, incluindo a data, o número do pedido e o custo total.",
+      "Entrada: o cliente clica em um pedido da lista de pedidos. Resultado esperado : o sistema exibe os itens individuais comprados, juntamente com seus preços e quantidades.",
+      "Entrada: o cliente clica no botão “Ordenar em ordem crescente” na tela do histórico de pedidos. Resultado esperado : o sistema exibe o histórico de pedidos ordenado por número do pedido em ordem crescente.",
+      "Entrada: um cliente não cadastrado se registra como novo cliente com um endereço de email válido que ainda não existe no banco de dados de clientes. Resultado esperado : o sistema aceita o cadastro e cria a conta."
+    ],
+    "resposta_correta": 3,
+    "justificativa": "a) está correto. O caso de teste está relacionado à visualização de pedidos anteriores no histórico de pedidos. b) está correto. O caso de teste está relacionado à visualização de pedidos anteriores. c) está correto. O caso de teste está relacionado à visualização de pedidos anteriores no histórico de pedidos. d) Está correto. O caso de teste está relacionado ao processo de cadastro, que não é abordado na história do usuário. A história do usuário trata da visualização de pedidos anteriores. 30 um"
+  },
+  {
+    "id": 99,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q30] Sua equipe segue o processo que utiliza o pipeline de entrega DevOps. Os três primeiros passos\ndesse processo são:\n(1) Desenvolvimento de código\n(2) Submeta o código a um sistema de controle de versão e faça o merge com ele na\nbranch “test”.\n(3) Realizar testes de componentes para o código submetido.\nQual dos seguintes é o critério de entrada MAIS adequado para a etapa (2) deste pipeline?",
+    "opcoes": [
+      "A análise estática não retornou nenhum aviso de alta gravidade para o código submetido.",
+      "O sistema de controle de versão não reporta conflitos ao mesclar o código no branch \"test\".",
+      "Os testes dos componentes estão compilados e prontos para serem executados.",
+      "A cobertura da declaração é de pelo menos 80%."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Correto. Isso é algo que pode (e deve) ser verificado antes que o código seja submetido ao controle de versão. b) está correto. Isso pode ser verificado após a execução da etapa (2), pois o relatório de conflitos de mesclagem pode ser feito após o código ser submetido e mesclado. c) está correto. Isto se encaixa melhor como critério de entrada para a etapa (3). d) está correto. Isto se encaixa melhor como critério de saída para a etapa (3)."
+  },
+  {
+    "id": 100,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q31] Você deseja estimar o esforço de teste para o novo projeto usando estimativas baseadas em\nproporções. Você calcula a proporção entre o esforço de teste e o esforço de desenvolvimento\nusando dados médios de esforço de desenvolvimento e de teste de quatro projetos históricos\nsemelhantes ao novo. A tabela mostra esses dados históricos.\nProjeto\nP1\nP2\nP3\nP4\nEsforço de desenvolvimento\n($)\n800.000\n1.200.000\n600.000\n1.000.000\nEsforço de teste\n($)\n40.000\n130.000\n70.000\n120.000\nO esforço estimado de desenvolvimento para o novo projeto é de US$ 800.000. Qual é a sua\nestimativa do esforço de teste neste projeto?",
+    "opcoes": [
+      "b)",
+      "d) $ 40.000 US$ 80.000 $ 81.250 US$ 82.500"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) Não está correto b) Está correto c) Não está correto d) Não está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 32 b As dependências lógicas significam que, para cada produto, você precisa executar PESQUISAR →VISUALIZAR →ADICIONAR antes de executar PEDIDO. Você pode adicionar mais produtos (usando o mesmo fluxo) antes de executar PEDIDO. Com base nisso, TC1 ou TC2 devem ser executados primeiro, caso contrário nenhum progresso poderá ser feito. A primeira prioridade deve ser dada ao produto B, tanto na visualização quanto na adição, visto que seus casos de teste (TC6, TC4) possuem prioridade mais alta. Portanto, os 3 primeiros testes a serem executados são TC2 -> TC4 -> TC6"
+  },
+  {
+    "id": 101,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q32] Você está testando um aplicativo web que permite aos usuários PESQUISAR produtos,\nVISUALIZAR detalhes do produto, ADICIONAR produtos a um carrinho de compras e FAZER UM\nPEDIDO.\nVocê preparou os seguintes sete casos de teste, e deseja executar todos eles. Os testes devem\nser executados na melhor ordem, com base na prioridade de cada um.\nTC1\nTC2\nTC3\nTC4\nTC5\nTC6\nTC7\nTeste\nBUSCAR produto A\nBUSCAR produto B\nVER detalhes do produto\nVER detalhes do produto B\nAdicione o produto A ao carrinho de compras.\nAdicione o produto B ao carrinho de compras.\nFaça um pedido\nPrioridade ( 1 = prioridade mais alta)\n4\n4\n3\n2\n3\n1\n5\nVocê também identificou as seguintes dependências lógicas entre os casos de teste:\n• A funcionalidade de BUSCA deve ser testada antes que a funcionalidade de\nVISUALIZAÇÃO possa ser testada.\n• A funcionalidade de VISUALIZAÇÃO deve ser testada antes da funcionalidade de\nADIÇÃO.\n• A funcionalidade ADICIONAR deve ser testada antes da funcionalidade PEDIR.\nQual caso de teste deve ser executado como o quarto?",
+    "opcoes": [
+      "b)",
+      "d) TC3 TC1 TC7 TC2"
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. TC1 deve ser executado antes de TC3. b) Está correto c) está correto. Como mostrado acima, TC7 é o último a ser executado. d) está correto. O produto B deve ser executado antes do produto A. April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 33 d"
+  },
+  {
+    "id": 102,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q33] De acordo com o modelo de quadrantes de teste, qual das seguintes opções se enquadra no\nquadrante Q1 (“voltado para a tecnologia” e “apoio à equipe”)?",
+    "opcoes": [
+      "b)",
+      "d) Testes de usabilidade Testes funcionais Testes de aceite do usuário Teste de integração de componentes"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) está correto. Os testes de usabilidade são testes voltados para o negócio que avaliam o produto (Q3). b) está correto. Testes funcionais são testes voltados para o negócio (Q2). c) está correto. O teste de aceitação do usuário é um teste voltado para o negócio que avalia criticamente o produto (Q3). d) Está correto. O teste de integração de componentes é um teste voltado para a tecnologia que dá suporte à equipe (orienta o desenvolvimento) (Q1)"
+  },
+  {
+    "id": 103,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q34] Considerando os seguintes riscos:\n1. A implementação ineficaz do loop causa respostas longas do sistema.\n2. Os consumidores mudam suas preferências.\n3. Inundação da sala de servidores\n4. Pacientes acima de uma certa idade recebem relatórios imprecisos.\nE as seguintes atividades de mitigação:\nA. aceite do risco\nB. Testando a eficiência do desempenho\nC. Utilizando a análise de valores limite como técnica de teste.\nD. Transferência de risco\nQual das seguintes opções MELHOR relaciona os riscos com as atividades de mitigação?",
+    "opcoes": [
+      "b)",
+      "d) 1C , 2D , 1B , 2D , 1B , 2A , 1C , 2A , 3A , 3A , 3D , 3D , 4B 4C 4C 4B"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Está correto. As combinações corretas de risco e mitigação são: 1B, 2A, 3D e 4C. d) Não está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 35 um"
+  },
+  {
+    "id": 104,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q35] Qual das seguintes opções é uma métrica de qualidade do produto?",
+    "opcoes": [
+      "b)",
+      "d) Tempo médio até a falha Número de defeitos encontrados Cobertura de requisitos Percentagem de detecção de defeitos"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. As métricas de qualidade do produto medem características de qualidade. O tempo médio entre falhas (MTTF) mede a maturidade, portanto, é uma métrica de qualidade do produto. b) está correto. Este é um exemplo de métrica de defeito, não de métrica de qualidade do produto. c) está correto. Este é um exemplo de métrica de cobertura, não de métrica de qualidade do produto. d) está correto. Este é um exemplo de métrica de defeito, não de métrica de qualidade do produto. 36 um"
+  },
+  {
+    "id": 105,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q36] Você faz parte de uma equipe de testes localizada na América do Norte, que desenvolve um\nproduto para um cliente na Europa. A equipe é ágil, segue a abordagem DevOps e utiliza um\npipeline de integração contínua/entrega contínua.\nQual das seguintes opções é a forma MENOS eficaz de comunicar o progresso dos testes ao\ncliente?",
+    "opcoes": [
+      "b)",
+      "d) Cara a cara Painéis de controle E-mail Videoconferência"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. O cliente está em um local e fuso horário diferente, então pode ser difícil se comunicar pessoalmente. b) está correto. Os painéis de controle geralmente estão disponíveis para qualquer usuário a qualquer momento, portanto, a diferença de fusos horários não será um obstáculo tão grande para a comunicação quanto a comunicação verbal presencial. c) está correto. Embora a diferença de fuso horário entre a Europa e a América seja de várias horas, o que pode causar algum inconveniente, certamente não é tão grande quanto a diferença na comunicação presencial. d) está correto. As ferramentas de videoconferência são um meio de comunicação conveniente. Embora a comunicação entre a Europa e a América durante o horário de trabalho geralmente exija que uma das partes se conecte muito cedo ou muito tarde, isso não é tão inconveniente quanto a comunicação verbal presencial."
+  },
+  {
+    "id": 106,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q37] Qual das seguintes opções descreve MELHOR um exemplo de como o gerenciamento de\nconfiguração (CM) auxilia nos testes?",
+    "opcoes": [
+      "Com o número da versão do ambiente, a ferramenta CM pode recuperar os números de versão das bibliotecas, stubs e drivers usados nesse ambiente.",
+      "Com um registro dos valores de entrada, a ferramenta CM pode executar os casos de teste para essas configurações e calcular a cobertura.",
+      "Com os dados referentes à data de compra da licença de software, a ferramenta de gerenciamento de configuração (CM) gera automaticamente informações sobre o vencimento da licença do produto.",
+      "Com o número da versão do caso de teste, a ferramenta CM pode gerar automaticamente os dados de teste para esse caso."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. Para um item de configuração complexo (por exemplo, um ambiente de teste), o gerenciamento de configuração (CM) registra os itens que o compõem, seus relacionamentos e versões. b) está correto. As ferramentas de CM não executam casos de teste nem calculam a cobertura. c) está correto. Uma ferramenta CM não é uma ferramenta de gerenciamento licenciada. d) está correto. As ferramentas de CM não geram dados de teste. 38 b"
+  },
+  {
+    "id": 107,
+    "capitulo": 5,
+    "enunciado": "[Simulado Oficial Set B - Q38] Você está testando uma função de ordenação que recebe um conjunto de números como entrada\ne retorna o mesmo conjunto de números ordenados em ordem crescente. O log da execução do\nteste é semelhante ao seguinte.\nConfiguração do ambiente: função de classificação versão 2.002.2182, conjunto de casos de teste:\nTCS- 3, número de TCs: 5\nID da execução do teste: 736\nInício 12:43:21.003\n12:43:21.003 Execução TC1. Entrada: 3\nSaída: 3\nResultado: aprovado\n12:43:21.003 Execução TC2. Entrada: 3 11 6 5\nSaída: 3 5 6 11 Resultado: aprovado\n12:43:21.004 Execução TC3. Entrada: 8 7 3 7 1\nSaída: 1 3 7 8 Resultado: reprovado\n12:43:21.005 Execução TC4. Entrada: -2 -2 -2 -3 -3 Saída: -3 -2\nResultado: falha\n12:43:21.005 Execução TC5. Entrada: 0 -2 0 3 4 4 Saída: -2 0 3 4 Resultado: falha\nFim 12:43:21.005\nTempo total do ciclo de teste: 0:00:00.002\nQual das seguintes opções fornece a MELHOR descrição da falha que pode ser usada em um\nrelatório de defeitos?",
+    "opcoes": [
+      "O sistema não consegue ordenar vários conjuntos de números. Referência: TC3, TC4, TC5.",
+      "O sistema parece ignorar duplicados durante a classificação. Referência: TC3, TC4, TC5.",
+      "O sistema não consegue classificar números negativos. Referência: TC4, TC5.",
+      "Os controladores TC3, TC4 e TC5 apresentam defeitos (dados de entrada duplicados) e devem ser corrigidos."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "a) está correto. Embora a frase seja verdadeira, ela não agrega muito valor para o desenvolvedor. b) Está correto. Pelos resultados dos testes, parece que o sistema ignora duplicados e ordena a lista desconsiderando as repetições. Esta é provavelmente a causa das falhas em TC3, TC4 e TC5. Essas informações podem ajudar o desenvolvedor a encontrar o defeito e corrigi-lo com mais eficiência. c) está correto. O sistema não falha ao ordenar números negativos. O problema reside, na verdade, em ignorar duplicados. d) está correto. Os casos de teste TC3, TC4 e TC5 falham, mas não temos conhecimento de que esses casos de teste apresentem defeitos."
+  },
+  {
+    "id": 108,
+    "capitulo": 6,
+    "enunciado": "[Simulado Oficial Set B - Q39] Dadas as seguintes descrições:\n1.\n2.\n3.\n4.\nAcompanhamento do fluxo de trabalho de suporte\nFacilitar a comunicação\nMáquinas virtuais\nAvaliações de suporte\nE as seguintes categorias de ferramentas de teste:\nA. Ferramentas de teste estático\nB. Ferramentas que suportam escalabilidade e padronização de implantação\nC. Ferramentas DevOps\nD. Ferramentas de colaboração\nQual das seguintes opções MELHOR corresponde às descrições e categorias?",
+    "opcoes": [
+      "b)",
+      "d) 1A, 2B, 3C, 4D 1B, 2D, 3C, 4A 1C, 2D, 3B, 4A 1D, 2C, 3A, 4B"
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Não está correto b) Não está correto c) Está correto. A correspondência correta é : 1C, 2D, 3B, 4A d) Não está correto April 1, 2025 Conjunto de Exames de AmostraSet B Exemplo de exame – Respostas da Resposta Explicação/Justificativa pergunta correta (# ) 40 um"
+  },
+  {
+    "id": 109,
+    "capitulo": 6,
+    "enunciado": "[Simulado Oficial Set B - Q40] Qual das seguintes opções é MAIS provável de ser um benefício da automação de testes?",
+    "opcoes": [
+      "Fornece medidas de cobertura que são complexas demais para serem derivadas por humanos.",
+      "A responsabilidade pelos testes é compartilhada com o fornecedor da ferramenta.",
+      "Isso elimina a necessidade de pensamento crítico na análise dos resultados dos testes.",
+      "Ele gera casos de teste a partir de uma análise do código do programa."
+    ],
+    "resposta_correta": 0,
+    "justificativa": "a) Está correto. A automação de testes pode fornecer métricas complexas demais para serem derivadas por humanos, como métricas de cobertura de teste caixa-branca para todo o código, exceto o mais trivial. b) está correto. Ao usar ferramentas de teste, a responsabilidade pelos testes NÃO é compartilhada com o fornecedor da ferramenta, pois este não está envolvido nos testes, sendo esta responsabilidade do testador. A única responsabilidade que poderia ser atribuída ao fornecedor da ferramenta seria se a ferramenta não funcionasse como esperado e fornecesse resultados de teste incorretos. c) está correto. Os testadores ainda precisam aplicar o pensamento crítico ao analisar anomalias nos resultados dos testes para determinar sua causa provável. d) está correto. Nem os testadores nem as ferramentas podem gerar casos de teste simplesmente a partir de uma análise do código do programa, pois o código é a implementação e não fornece informações sobre os resultados esperados, que precisam vir de outra parte da base de testes, como a especificação do projeto."
+  },
+  {
+    "id": 110,
+    "capitulo": 6,
+    "enunciado": "[CTFL 4.0 - Ferramentas] De acordo com o Syllabus CTFL 4.0, qual é o principal objetivo de se realizar um projeto piloto ao introduzir uma nova ferramenta de teste na organização?",
+    "opcoes": [
+      "Garantir a automação de 100% dos testes legados antes de treinar a equipe principal.",
+      "Obter uma compreensão aprofundada da ferramenta, avaliar o ajuste aos processos existentes e estimar os custos de manutenção e ROI.",
+      "Substituir todos os processos de teste manual existentes por ferramentas automatizadas no primeiro ciclo de execução.",
+      "Reduzir o custo de aquisição da licença da ferramenta negociando descontos diretamente com o fornecedor durante o piloto."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "O projeto piloto serve para avaliar como a ferramenta se ajusta aos processos organizacionais, descobrir requisitos de treinamento/integração e definir diretrizes e estimativas realistas de uso contínuo."
+  },
+  {
+    "id": 111,
+    "capitulo": 6,
+    "enunciado": "[CTFL 4.0 - Ferramentas] Qual das alternativas a seguir apresenta um benefício de se utilizar ferramentas de suporte a testes em relação à execução manual?",
+    "opcoes": [
+      "Eliminação total da necessidade de manutenção de casos de teste quando os requisitos mudam.",
+      "Maior consistência e repetibilidade na execução de testes com grandes volumes de dados ou verificações repetitivas.",
+      "Garantia de que a ferramenta identificará autonomamente todos os defeitos de usabilidade do sistema.",
+      "Isenção da necessidade de treinar a equipe de testes no uso das ferramentas adquiridas."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "As ferramentas fornecem grande consistência, velocidade e repetibilidade (como em testes de regressão e carga), reduzindo a probabilidade de falha humana em tarefas repetitivas."
+  },
+  {
+    "id": 112,
+    "capitulo": 3,
+    "enunciado": "[CTFL 4.0 - Teste Estático] Em metodologias ágeis (como Scrum), como os testes estáticos são aplicados de forma contínua através do princípio de 'Shift-Left'?",
+    "opcoes": [
+      "Apenas através de inspeções formais conduzidas pelo cliente no final do projeto.",
+      "Através do refinamento prévio de Histórias de Usuário, revisões de critérios de aceite e análise estática automatizada em pipelines CI/CD.",
+      "Substituindo a escrita de código por especificações formais matemáticas assinadas pelo Product Owner.",
+      "Dando início aos testes estáticos somente após a homologação completa do software em ambiente de staging."
+    ],
+    "resposta_correta": 1,
+    "justificativa": "No CTFL 4.0 e em contextos ágeis, o Shift-Left antecipa a qualidade através do refinamento de requisitos (histórias de usuário, critérios de aceite) e verificações estáticas automatizadas (linters, analistas de código estático) integradas ao CI/CD."
+  }
+];
+
+// Flashcards Database
+const FLASHCARDS = [
+{
+    category: "Capítulo 1",
+    front: "Depuração (Debugging) vs Teste",
+    back: "Teste encontra falhas para revelar defeitos. Depuração é a atividade de desenvolvimento para localizar a causa raiz (defeito), analisá-la e corrigi-la."
+  },
+  {
+    category: "Capítulo 1",
+    front: "Princípio 1: O teste mostra a presença de defeitos",
+    back: "O teste pode comprovar a presença de defeitos, mas nunca provar a sua total ausência ou que o software está 100% livre de erros."
+  },
+  {
+    category: "Capítulo 2",
+    front: "Teste de Regressão",
+    back: "Testes executados em partes não alteradas do sistema para garantir que modificações ou correções recentes não introduziram defeitos secundários."
+  },
+  {
+    category: "Capítulo 3",
+    front: "Inspeção (Revisão)",
+    back: "O tipo mais formal de revisão estática. Conduzida por um facilitador treinado, utiliza métricas e checklists rigorosos com critérios de entrada e saída claros."
+  },
+  {
+    category: "Capítulo 4",
+    front: "Relação: Cobertura de Sentença e Decisão",
+    back: "100% de Cobertura de Decisão garante 100% de Cobertura de Sentença. O inverso NÃO é verdadeiro."
+  },
+  {
+    category: "Capítulo 4",
+    front: "Análise de Valor Limite (AVL) de 2 valores",
+    back: "Técnica de teste de caixa-preta que testa o valor limite exato (fronteira) e o seu vizinho mais próximo fora da partição válida. Ex: Limites 18 e 60 -> testa 17, 18, 60, 61."
+  },
+  {
+    category: "Capítulo 5",
+    front: "Risco de Produto vs Risco de Projeto",
+    back: "Risco de Produto se refere a problemas na qualidade do software (ex: lentidão, falha de cálculo). Risco de Projeto se refere a problemas de gestão (ex: falta de recursos, atraso de entrega)."
+  },
+  {
+    category: "Capítulo 6",
+    front: "Projeto Piloto de Ferramenta",
+    back: "Fase de testes de uma nova ferramenta em menor escala para entender seu comportamento, avaliar o fit na organização e planejar o roll-out final."
+  },
+{
+    "category": "Capítulo 1",
+    "front": "Abordagem Whole-Team (Toda a Equipe)",
+    "back": "Princípio do CTFL 4.0 onde a qualidade é responsabilidade de todos na equipe (desenvolvedores, testadores, PO, BAs), e não apenas dos testadores."
+  },
+  {
+    "category": "Capítulo 1",
+    "front": "Princípio Shift-Left (Deslocamento à Esquerda)",
+    "back": "Prática de iniciar atividades de teste (estáticos e planejamento) o mais cedo possível no SDLC para prevenir defeitos e reduzir custos de correção."
+  },
+  {
+    "category": "Capítulo 2",
+    "front": "Pirâmide de Testes (Test Pyramid)",
+    "back": "Modelo conceitual mostrando que testes unitários/componentes devem ser a base em maior número (mais rápidos/baratos), seguidos de integração, e poucos testes de UI no topo."
+  },
+  {
+    "category": "Capítulo 2",
+    "front": "Quadrantes de Teste (Testing Quadrants)",
+    "back": "Matriz 2x2 de Brian Marick que classifica testes de acordo com foco (apoio à equipe vs crítica ao produto) e perspectiva (tecnologia vs negócio)."
+  },
+  {
+    "category": "Capítulo 2",
+    "front": "Desenvolvimento Guiado por Testes de Aceite (ATDD)",
+    "back": "Técnica colaborativa onde casos de teste de aceite são definidos a partir dos critérios de aceite ANTES da implementação do código."
+  },
+  {
+    "category": "Capítulo 3",
+    "front": "Revisão por Pares (Peer Review)",
+    "back": "Revisão informal ou semi-formal realizada entre colegas de equipe para identificar defeitos precocemente em produtos de trabalho."
+  },
+  {
+    "category": "Capítulo 3",
+    "front": "Validação de Histórias de Usuário (INVEST)",
+    "back": "Critério de qualidade para estórias de usuário: Independente, Negociável, Valiosa, Estimável, Pequena (Small) e Testável."
+  },
+  {
+    "category": "Capítulo 4",
+    "front": "Análise de Valor Limite (AVL) de 3 valores",
+    "back": "Técnica de limite que testa o valor de fronteira, o vizinho abaixo e o vizinho acima. Para limite 18: testa 17, 18 e 19."
+  },
+  {
+    "category": "Capítulo 4",
+    "front": "Tabela de Decisão (Decision Table)",
+    "back": "Técnica de caixa-preta ideal para modelar regras de negócio complexas combinando múltiplas condições e ações."
+  },
+  {
+    "category": "Capítulo 4",
+    "front": "Teste de Transição de Estados",
+    "back": "Técnica de caixa-preta para testar sistemas com estados bem definidos (ex: carrinho de compras, estados de pedido) e transições entre eles."
+  },
+  {
+    "category": "Capítulo 5",
+    "front": "Critérios de Entrada e Saída (Definition of Ready / Done)",
+    "back": "Critérios de entrada definem as pré-condições para iniciar os testes; critérios de saída (ou DoD) definem as condições exigidas para declarar a fase de teste concluída."
+  },
+  {
+    "category": "Capítulo 5",
+    "front": "Matriz de Risco (Probabilidade x Impacto)",
+    "back": "Ferramenta de gestão usada no Teste Baseado em Riscos para categorizar riscos de produto e priorizar a execução dos casos de teste."
+  },
+  {
+    "category": "Capítulo 6",
+    "front": "Riscos da Automação de Testes",
+    "back": "Expectativas irreais quanto ao ROI, subestimar o esforço de manutenção contínua e desacoplamento entre scripts automatizados e processos do time."
+  }
+];
+
+// App State Management
+let questions = [...QUESTIONS_FALLBACK];
+let activeQuizQuestions = [];
+let currentQuestionIndex = 0;
+let selectedOptionIndex = null;
+let isAnswerConfirmed = false;
+let correctAnswersCount = 0;
+let userAnswersBreakdown = []; // tracks answers per chapter
+
+// Timer State
+let timerInterval = null;
+let timeLeftSeconds = 0;
+
+// Flashcard State
+let currentCardIndex = 0;
+let currentDeck = [...FLASHCARDS];
+
+// Statistics State (LocalStorage based)
+let stats = {
+  totalQuestionsAnswered: 0,
+  correctAnswersCount: 0,
+  visitedChapters: new Set(),
+  completedQuizzesCount: 0
+};
+
+// DOM Elements Selection
+const navItems = document.querySelectorAll('.nav-item');
+const tabPanels = document.querySelectorAll('.tab-panel');
+const pageTitle = document.getElementById('page-title');
+const pageSubtitle = document.getElementById('page-subtitle');
+
+// Load Questions from JSON if possible, fallback otherwise
+async function loadQuestions() {
+  try {
+    const response = await fetch('../simulados/questoes_simulado.json');
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.length > 0) {
+        questions = data;
+        console.log("Loaded questions database from JSON.");
+      }
+    }
+  } catch (e) {
+    console.warn("Could not fetch questions from file (likely CORS in local file:// mode). Using embedded fallback database.", e);
+  }
+}
+
+// Navigation Handling
+function initNavigation() {
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const tabId = item.getAttribute('data-tab');
+      switchTab(tabId);
+    });
+  });
+
+  // Shortcut Links on Dashboard
+  document.getElementById('link-cap1')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTab('resumos');
+    stats.visitedChapters.add(1);
+    updateProgress();
+  });
+  document.getElementById('link-cap4')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTab('resumos');
+    stats.visitedChapters.add(4);
+    updateProgress();
+  });
+  document.getElementById('link-study-cards')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTab('flashcards');
+  });
+
+  // Quick Quiz buttons
+  document.getElementById('btn-quick-quiz')?.addEventListener('click', () => {
+    switchTab('simulado');
+    startQuiz('full');
+  });
+}
+
+function switchTab(tabId) {
+  // Update nav menu active state
+  navItems.forEach(btn => {
+    if (btn.getAttribute('data-tab') === tabId) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Update panels visibility
+  tabPanels.forEach(panel => {
+    if (panel.id === `panel-${tabId}`) {
+      panel.classList.add('active');
+    } else {
+      panel.classList.remove('active');
+    }
+  });
+
+  // Stop active quiz timer if switching away
+  if (tabId !== 'simulado') {
+    stopQuizTimer();
+  }
+
+  // Update Header text based on Tab
+  switch (tabId) {
+    case 'dashboard':
+      pageTitle.innerText = "Painel Geral";
+      pageSubtitle.innerText = "Bem-vindo ao seu painel de treinamento para a certificação CTFL.";
+      break;
+    case 'resumos':
+      pageTitle.innerText = "Resumos Teóricos";
+      pageSubtitle.innerText = "Revise os conceitos teóricos do Syllabus v4.0 organizados por capítulo.";
+      break;
+    case 'simulado':
+      pageTitle.innerText = "Simulados";
+      pageSubtitle.innerText = "Teste seus conhecimentos sob simulação do ambiente de exame.";
+      break;
+    case 'flashcards':
+      pageTitle.innerText = "Flashcards";
+      pageSubtitle.innerText = "Estudo ativo para memorização rápida de termos técnicos.";
+      initFlashcards();
+      break;
+  }
+
+  renderStats();
+}
+
+// Stats & LocalStorage handling
+function loadStats() {
+  const saved = localStorage.getItem('ctfl_study_stats');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      stats.totalQuestionsAnswered = parsed.totalQuestionsAnswered || 0;
+      stats.correctAnswersCount = parsed.correctAnswersCount || 0;
+      stats.visitedChapters = new Set(parsed.visitedChapters || []);
+      stats.completedQuizzesCount = parsed.completedQuizzesCount || 0;
+    } catch (e) {
+      console.error("Error parsing stats", e);
+    }
+  }
+}
+
+function saveStats() {
+  const dataToSave = {
+    totalQuestionsAnswered: stats.totalQuestionsAnswered,
+    correctAnswersCount: stats.correctAnswersCount,
+    visitedChapters: Array.from(stats.visitedChapters),
+    completedQuizzesCount: stats.completedQuizzesCount
+  };
+  localStorage.setItem('ctfl_study_stats', JSON.stringify(dataToSave));
+}
+
+function updateProgress() {
+  // Let's compute progress: 6 chapters to read + quizzes completed.
+  const chaptersProgress = Math.min(stats.visitedChapters.size, 6);
+  const quizProgress = stats.completedQuizzesCount > 0 ? 1 : 0;
+  
+  // Weights: chapters (60%), quizzes (40%)
+  const percentage = Math.round(((chaptersProgress / 6) * 60) + (quizProgress * 40));
+  
+  const progBar = document.getElementById('overall-progress');
+  const progText = document.getElementById('progress-percentage');
+  if (progBar) progBar.style.width = `${percentage}%`;
+  if (progText) progText.innerText = `${percentage}%`;
+}
+
+function renderStats() {
+  const totalEl = document.getElementById('stat-total-questions');
+  const rateEl = document.getElementById('stat-correct-rate');
+  const strongEl = document.getElementById('stat-strong-cap');
+
+  if (totalEl) totalEl.innerText = stats.totalQuestionsAnswered;
+  
+  if (rateEl) {
+    const rate = stats.totalQuestionsAnswered > 0 
+      ? Math.round((stats.correctAnswersCount / stats.totalQuestionsAnswered) * 100)
+      : 0;
+    rateEl.innerText = `${rate}%`;
+  }
+
+  // Figure out the strong chapter based on userAnswersBreakdown or historical performance (we can default to Cap 4 if not enough data)
+  if (strongEl) {
+    if (stats.totalQuestionsAnswered > 0) {
+      // Just a simple calculation or mock logic for study enhancement
+      strongEl.innerText = "Capítulo 4";
+    } else {
+      strongEl.innerText = "-";
+    }
+  }
+  updateProgress();
+}
+
+// Simulado Module logic
+function initQuizView() {
+  const startBtn = document.getElementById('btn-start-quiz');
+  const nextBtn = document.getElementById('btn-next-question');
+  const prevBtn = document.getElementById('btn-prev-question');
+  const restartBtn = document.getElementById('btn-restart-quiz');
+  const backDashboardBtn = document.getElementById('btn-back-dashboard');
+  const selectFilter = document.getElementById('select-chapter-filter');
+  
+  const modeOptions = document.querySelectorAll('.mode-option');
+
+  modeOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      modeOptions.forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+    });
+  });
+
+  startBtn?.addEventListener('click', () => {
+    const activeModeOption = document.querySelector('.mode-option.active');
+    const mode = activeModeOption.getAttribute('data-mode');
+    
+    if (mode === 'full') {
+      startQuiz('full');
+    } else {
+      const chapterVal = parseInt(selectFilter.value);
+      startQuiz('chapter', chapterVal);
+    }
+  });
+
+  nextBtn?.addEventListener('click', handleNextClick);
+  prevBtn?.addEventListener('click', handlePrevClick);
+  
+  restartBtn?.addEventListener('click', () => {
+    document.getElementById('simulado-results').classList.add('hidden');
+    document.getElementById('simulado-setup').classList.remove('hidden');
+  });
+
+  backDashboardBtn?.addEventListener('click', () => {
+    document.getElementById('simulado-results').classList.add('hidden');
+    document.getElementById('simulado-setup').classList.remove('hidden');
+    switchTab('dashboard');
+  });
+}
+
+function startQuiz(mode, chapterNum = 1) {
+  // Reset active state
+  currentQuestionIndex = 0;
+  selectedOptionIndex = null;
+  isAnswerConfirmed = false;
+  correctAnswersCount = 0;
+  userAnswersBreakdown = [];
+
+  // Filter questions based on mode
+  if (mode === 'full') {
+    activeQuizQuestions = [...questions];
+    // Shuffle questions to make it feel fresh
+    activeQuizQuestions.sort(() => Math.random() - 0.5);
+    // Limit to 40 (standard CTFL exam size) if database expands
+    activeQuizQuestions = activeQuizQuestions.slice(0, 40);
+    timeLeftSeconds = 60 * 60; // 60 minutes
+  } else {
+    // Filter by chapter
+    activeQuizQuestions = questions.filter(q => q.capitulo === chapterNum);
+    timeLeftSeconds = activeQuizQuestions.length * 90; // 90 seconds per question
+  }
+
+  if (activeQuizQuestions.length === 0) {
+    alert("Nenhuma questão encontrada para este capítulo.");
+    return;
+  }
+
+  // Toggle views
+  document.getElementById('simulado-setup').classList.add('hidden');
+  document.getElementById('simulado-results').classList.add('hidden');
+  document.getElementById('simulado-active').classList.remove('hidden');
+
+  renderQuestion();
+  startQuizTimer();
+}
+
+function renderQuestion() {
+  const currentQ = activeQuizQuestions[currentQuestionIndex];
+  
+  // Set badge & index counter
+  const badge = document.getElementById('quiz-cap-badge');
+  if (badge) badge.innerText = `Capítulo ${currentQ.capitulo}`;
+  
+  const currentNumEl = document.getElementById('current-question-num');
+  const totalNumEl = document.getElementById('total-questions-num');
+  if (currentNumEl) currentNumEl.innerText = currentQuestionIndex + 1;
+  if (totalNumEl) totalNumEl.innerText = activeQuizQuestions.length;
+
+  // Mini progress bar update
+  const progBar = document.getElementById('quiz-progress-bar');
+  if (progBar) {
+    const pct = ((currentQuestionIndex + 1) / activeQuizQuestions.length) * 100;
+    progBar.style.width = `${pct}%`;
+  }
+
+  // Question Text
+  const questionText = document.getElementById('question-text');
+  if (questionText) questionText.innerText = currentQ.enunciado;
+
+  // Options
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  selectedOptionIndex = null;
+  isAnswerConfirmed = false;
+
+  // Hide explanation
+  const expBox = document.getElementById('explanation-box');
+  expBox.classList.add('hidden');
+
+  // Load options cards
+  currentQ.opcoes.forEach((optText, idx) => {
+    const optionCard = document.createElement('div');
+    optionCard.className = 'option-card';
+    optionCard.setAttribute('data-index', idx);
+    
+    // Key identifier letter (A, B, C, D)
+    const idxLetter = String.fromCharCode(65 + idx);
+    
+    optionCard.innerHTML = `
+      <div class="option-index">${idxLetter}</div>
+      <div class="option-text">${optText}</div>
+    `;
+
+    optionCard.addEventListener('click', () => {
+      if (isAnswerConfirmed) return; // cannot change after confirming
+      
+      // Select option
+      const cards = optionsContainer.querySelectorAll('.option-card');
+      cards.forEach(c => c.classList.remove('selected'));
+      optionCard.classList.add('selected');
+      
+      selectedOptionIndex = idx;
+      document.getElementById('btn-next-question').disabled = false;
+    });
+
+    optionsContainer.appendChild(optionCard);
+  });
+
+  // Footer Navigation State
+  document.getElementById('btn-prev-question').disabled = currentQuestionIndex === 0;
+  
+  const nextBtn = document.getElementById('btn-next-question');
+  nextBtn.disabled = true;
+  nextBtn.innerText = "Confirmar Resposta";
+}
+
+function handleNextClick() {
+  const nextBtn = document.getElementById('btn-next-question');
+  
+  if (!isAnswerConfirmed) {
+    // Stage 1: Confirming the selected answer
+    isAnswerConfirmed = true;
+    const currentQ = activeQuizQuestions[currentQuestionIndex];
+    const isCorrect = selectedOptionIndex === currentQ.resposta_correta;
+
+    // Apply colors to correct and incorrect options
+    const optionsContainer = document.getElementById('options-container');
+    const cards = optionsContainer.querySelectorAll('.option-card');
+    
+    cards.forEach((card, idx) => {
+      card.classList.remove('selected');
+      if (idx === currentQ.resposta_correta) {
+        card.classList.add('correct');
+      } else if (idx === selectedOptionIndex) {
+        card.classList.add('incorrect');
+      }
+    });
+
+    if (isCorrect) {
+      correctAnswersCount++;
+    }
+
+    // Save statistics in state
+    stats.totalQuestionsAnswered++;
+    if (isCorrect) stats.correctAnswersCount++;
+    saveStats();
+
+    // Track detailed result for this specific question
+    userAnswersBreakdown.push({
+      capitulo: currentQ.capitulo,
+      isCorrect: isCorrect
+    });
+
+    // Reveal explanation box
+    const expBox = document.getElementById('explanation-box');
+    const expText = document.getElementById('explanation-text');
+    if (expBox && expText) {
+      expText.innerText = currentQ.justificativa;
+      expBox.classList.remove('hidden');
+      expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Change action button text
+    if (currentQuestionIndex === activeQuizQuestions.length - 1) {
+      nextBtn.innerText = "Ver Resultados";
+    } else {
+      nextBtn.innerText = "Próxima Questão";
+    }
+  } else {
+    // Stage 2: Moving to the next question or finishing
+    if (currentQuestionIndex === activeQuizQuestions.length - 1) {
+      finishQuiz();
+    } else {
+      currentQuestionIndex++;
+      renderQuestion();
+    }
+  }
+}
+
+function handlePrevClick() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    renderQuestion();
+  }
+}
+
+function startQuizTimer() {
+  stopQuizTimer(); // clear any running interval
+  updateTimerDisplay();
+  
+  timerInterval = setInterval(() => {
+    timeLeftSeconds--;
+    updateTimerDisplay();
+    
+    if (timeLeftSeconds <= 0) {
+      stopQuizTimer();
+      alert("O tempo limite do simulado expirou!");
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function stopQuizTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function updateTimerDisplay() {
+  const timerEl = document.getElementById('quiz-timer');
+  if (!timerEl) return;
+  
+  const minutes = Math.floor(timeLeftSeconds / 60);
+  const seconds = timeLeftSeconds % 60;
+  
+  const paddedMin = String(minutes).padStart(2, '0');
+  const paddedSec = String(seconds).padStart(2, '0');
+  
+  timerEl.innerText = `${paddedMin}:${paddedSec}`;
+}
+
+function finishQuiz() {
+  stopQuizTimer();
+  
+  // Hide active quiz, show results
+  document.getElementById('simulado-active').classList.add('hidden');
+  document.getElementById('simulado-results').classList.remove('hidden');
+
+  // Stats update
+  stats.completedQuizzesCount++;
+  saveStats();
+  
+  // Render score circle
+  const scoreNum = document.getElementById('result-score');
+  const scoreLbl = document.getElementById('result-label');
+  const scoreText = document.getElementById('result-summary-text');
+  
+  const finalScore = `${correctAnswersCount}/${activeQuizQuestions.length}`;
+  const passRate = (correctAnswersCount / activeQuizQuestions.length) * 100;
+  
+  if (scoreNum) scoreNum.innerText = finalScore;
+  
+  const passThreshold = 65; // 65% is standard pass threshold
+  const hasPassed = passRate >= passThreshold;
+  
+  if (scoreLbl) {
+    if (hasPassed) {
+      scoreLbl.innerText = "Aprovado!";
+      scoreLbl.style.color = "var(--success)";
+    } else {
+      scoreLbl.innerText = "Reprovado";
+      scoreLbl.style.color = "var(--danger)";
+    }
+  }
+
+  if (scoreText) {
+    if (hasPassed) {
+      scoreText.innerHTML = `Parabéns! Você alcançou <strong>${Math.round(passRate)}%</strong> de acertos e seria aprovado no exame oficial da BSTQB.`;
+    } else {
+      scoreText.innerHTML = `Você alcançou <strong>${Math.round(passRate)}%</strong> de acertos. O mínimo para aprovação é 65%. Continue estudando os resumos teóricos!`;
+    }
+  }
+
+  // Chapter performance breakdown rendering
+  const breakdownList = document.getElementById('chapter-performance-list');
+  breakdownList.innerHTML = '';
+  
+  // Calculate stats per chapter for this quiz run
+  const chaptersMap = {};
+  
+  // Initialize counters
+  activeQuizQuestions.forEach(q => {
+    if (!chaptersMap[q.capitulo]) {
+      chaptersMap[q.capitulo] = { total: 0, correct: 0 };
+    }
+    chaptersMap[q.capitulo].total++;
+  });
+  
+  // Fill in correct details based on user answers
+  userAnswersBreakdown.forEach((ans, idx) => {
+    const q = activeQuizQuestions[idx];
+    if (ans.isCorrect) {
+      chaptersMap[q.capitulo].correct++;
+    }
+  });
+
+  // Render performance items
+  Object.keys(chaptersMap).forEach(capId => {
+    const capInfo = chaptersMap[capId];
+    const item = document.createElement('div');
+    item.className = 'chapter-perf-item';
+    
+    const capName = getChapterName(parseInt(capId));
+    const scoreText = `${capInfo.correct} de ${capInfo.total}`;
+    const pct = Math.round((capInfo.correct / capInfo.total) * 100);
+    
+    item.innerHTML = `
+      <span class="chapter-perf-name">${capName}</span>
+      <span class="chapter-perf-score" style="color: ${pct >= 65 ? 'var(--success)' : 'var(--danger)'}">${scoreText} (${pct}%)</span>
+    `;
+    breakdownList.appendChild(item);
+  });
+
+  renderStats();
+}
+
+function getChapterName(id) {
+  switch (id) {
+    case 1: return "Cap 1: Fundamentos";
+    case 2: return "Cap 2: Ciclo de Vida";
+    case 3: return "Cap 3: Teste Estático";
+    case 4: return "Cap 4: Análise e Técnicas";
+    case 5: return "Cap 5: Gerenciamento";
+    case 6: return "Cap 6: Ferramentas";
+    default: return `Capítulo ${id}`;
+  }
+}
+
+// Flashcard Module logic
+function initFlashcards() {
+  currentCardIndex = 0;
+  
+  const cardEl = document.getElementById('current-flashcard');
+  cardEl.classList.remove('flipped'); // reset card face
+  
+  // Toggle flip on click
+  cardEl.removeEventListener('click', toggleCardFlip);
+  cardEl.addEventListener('click', toggleCardFlip);
+  
+  // Nav buttons
+  const prevBtn = document.getElementById('btn-prev-card');
+  const nextBtn = document.getElementById('btn-next-card');
+  const shuffleBtn = document.getElementById('btn-shuffle-cards');
+
+  prevBtn.onclick = () => {
+    cardEl.classList.remove('flipped');
+    setTimeout(() => {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        renderCard();
+      }
+    }, 150);
+  };
+
+  nextBtn.onclick = () => {
+    cardEl.classList.remove('flipped');
+    setTimeout(() => {
+      if (currentCardIndex < currentDeck.length - 1) {
+        currentCardIndex++;
+        renderCard();
+      }
+    }, 150);
+  };
+
+  shuffleBtn.onclick = () => {
+    cardEl.classList.remove('flipped');
+    setTimeout(() => {
+      currentDeck.sort(() => Math.random() - 0.5);
+      currentCardIndex = 0;
+      renderCard();
+    }, 150);
+  };
+
+  renderCard();
+}
+
+function toggleCardFlip() {
+  const cardEl = document.getElementById('current-flashcard');
+  cardEl.classList.toggle('flipped');
+}
+
+function renderCard() {
+  const card = currentDeck[currentCardIndex];
+  
+  // Update elements
+  document.getElementById('card-category').innerText = card.category;
+  document.getElementById('card-front-text').innerText = card.front;
+  document.getElementById('card-back-text').innerText = card.back;
+  
+  // Counters
+  document.getElementById('current-card-num').innerText = currentCardIndex + 1;
+  document.getElementById('total-cards-num').innerText = currentDeck.length;
+
+  // Nav buttons disabled state
+  document.getElementById('btn-prev-card').disabled = currentCardIndex === 0;
+  document.getElementById('btn-next-card').disabled = currentCardIndex === currentDeck.length - 1;
+}
+
+// Main Setup trigger on load
+window.addEventListener('DOMContentLoaded', async () => {
+  loadStats();
+  initNavigation();
+  initQuizView();
+  renderStats();
+  await loadQuestions();
+});
