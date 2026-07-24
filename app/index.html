@@ -2,9 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Prep CTFL - BSTQB v4.0</title>
-    <!-- Google Fonts -->
+    <!-- Google Fonts with System Fallbacks -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,10 +15,29 @@
     <div class="glow-bg"></div>
     <div class="glow-bg-secondary"></div>
 
+    <!-- Mobile Top Navigation Header -->
+    <header class="mobile-topbar">
+        <div class="brand">
+            <span class="brand-icon">🛡️</span>
+            <div class="brand-text">
+                <h1>Prep CTFL</h1>
+                <span>Syllabus v4.0</span>
+            </div>
+        </div>
+        <button class="btn-icon-menu" id="btn-toggle-sidebar" aria-label="Abrir Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Sidebar Backdrop for Mobile/Tablet -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
     <div class="app-container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
+        <aside class="sidebar" id="app-sidebar">
+            <div class="brand brand-desktop">
                 <span class="brand-icon">🛡️</span>
                 <div class="brand-text">
                     <h1>Prep CTFL</h1>
@@ -52,7 +71,7 @@
 
         <!-- Main Content Area -->
         <main class="main-content">
-            <!-- Header -->
+            <!-- Top Header Bar -->
             <header class="top-header">
                 <div class="header-title">
                     <h2 id="page-title">Painel Geral</h2>
@@ -106,7 +125,7 @@
                                 <span>Mínimo para passar (26 acertos)</span>
                             </div>
                         </div>
-                        <p>O exame oficial é de múltipla escolha com 4 opções por questão, sem penalidade por erro. Utilize o nosso modo simulado para se acostumar com o tempo!</p>
+                        <p>O exame oficial é de múltipla escolha com 4 opções por questão. Utilize o nosso banco de <strong>112 questões comentadas</strong> (com Simulados Oficiais Set A e Set B) para treinar!</p>
                     </div>
 
                     <div class="dashboard-card card-small">
@@ -127,48 +146,66 @@
                         <div class="chapter-num">01</div>
                         <div class="chapter-content">
                             <h3>Fundamentos de Testes</h3>
-                            <p>Conceitos de teste, defeito vs falha, 7 princípios fundamentais e psicologia de testes.</p>
-                            <a href="../capitulos/01_fundamentos_testes.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Shift-Left, Whole-Team Approach, 7 princípios fundamentais, psicologia e rastreabilidade.</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="1">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/01_fundamentos_testes.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                     <div class="chapter-card">
                         <div class="chapter-num">02</div>
                         <div class="chapter-content">
                             <h3>Testes no Ciclo de Vida do SDLC</h3>
-                            <p>Modelos de desenvolvimento, níveis de teste (Componente, Integração, Sistema, Aceite) e tipos de teste.</p>
-                            <a href="../capitulos/02_ciclo_vida_sdlc.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Pirâmide de Testes, Quadrantes, DevOps & CI/CD, Shift-Right, Níveis e Tipos de teste.</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="2">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/02_ciclo_vida_sdlc.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                     <div class="chapter-card">
                         <div class="chapter-num">03</div>
                         <div class="chapter-content">
                             <h3>Teste Estático</h3>
-                            <p>Vantagens do teste estático, tipos de revisões (inspeção, walkthrough, etc.) e papéis no processo.</p>
-                            <a href="../capitulos/03_teste_estatico.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Processo de revisão em 6 fases, papéis, tipos de revisão (Inspeção, Walkthrough, etc.) e PBR.</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="3">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/03_teste_estatico.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                     <div class="chapter-card">
                         <div class="chapter-num">04</div>
                         <div class="chapter-content">
                             <h3>Análise e Modelagem de Testes</h3>
-                            <p>Técnicas de Caixa-Preta (Valor Limite, Equivalência) e Caixa-Branca (Sentença, Decisão).</p>
-                            <a href="../capitulos/04_analise_modelagem.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Caixa-Preta (PE, AVL 2 vs 3 valores, Tabelas de Decisão) e Caixa-Branca (Sentença vs Decisão).</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="4">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/04_analise_modelagem.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                     <div class="chapter-card">
                         <div class="chapter-num">05</div>
                         <div class="chapter-content">
                             <h3>Gerenciamento das Atividades</h3>
-                            <p>Organização de equipes, independência, riscos de projeto/produto e gerenciamento de defeitos.</p>
-                            <a href="../capitulos/05_gerenciamento_atividades.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Plano de Testes (ISO 29119-3), DoR/DoD, Estratégias, RBT (Teste Baseado em Riscos) e Defeitos.</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="5">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/05_gerenciamento_atividades.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                     <div class="chapter-card">
                         <div class="chapter-num">06</div>
                         <div class="chapter-content">
                             <h3>Ferramentas de Teste</h3>
-                            <p>Tipos de ferramentas, benefícios e riscos da automação e introdução na organização.</p>
-                            <a href="../capitulos/06_ferramentas_teste.md" target="_blank" class="btn btn-outline">Abrir Resumo Completo</a>
+                            <p>Categorias de ferramentas, Benefícios e Riscos da Automação e Projeto Piloto.</p>
+                            <div class="chapter-actions">
+                                <button class="btn btn-primary btn-open-chapter" data-chapter="6">📖 Ler Resumo no App</button>
+                                <a href="../capitulos/06_ferramentas_teste.md" target="_blank" class="btn btn-outline">Arquivo .MD</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -184,7 +221,7 @@
                         <div class="mode-options">
                             <div class="mode-option active" data-mode="full">
                                 <h3>Simulado Completo</h3>
-                                <p>Até 40 questões cobrindo todos os capítulos (proporção semelhante à prova).</p>
+                                <p>40 questões selecionadas aleatoriamente entre as 112 do banco.</p>
                             </div>
                             <div class="mode-option" data-mode="chapter">
                                 <h3>Por Capítulo</h3>
@@ -267,7 +304,7 @@
                     <div class="flashcard-deck-header">
                         <p>Treine sua memorização de conceitos fundamentais da CTFL (K1/K2). Clique no card para revelar a resposta.</p>
                         <div class="deck-controls">
-                            <span class="card-counter">Card <strong id="current-card-num">1</strong> de <strong id="total-cards-num">8</strong></span>
+                            <span class="card-counter">Card <strong id="current-card-num">1</strong> de <strong id="total-cards-num">21</strong></span>
                         </div>
                     </div>
 
@@ -279,7 +316,7 @@
                                 <span class="click-hint">Clique para revelar</span>
                             </div>
                             <div class="flashcard-face flashcard-back">
-                                <p id="card-back-text">Se os mesmos testes forem repetidos várias vezes, eles deixarão de encontrar novos defeitos. Para detectar novos defeitos, os testes precisam ser modificados e novos testes criados constantemente.</p>
+                                <p id="card-back-text">Se os mesmos testes forem repetidos várias vezes, eles deixarão de encontrar novos defeitos.</p>
                                 <span class="click-hint">Clique para voltar</span>
                             </div>
                         </div>
@@ -293,6 +330,26 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Interactive Chapter Reader Modal (In-App Document Viewer) -->
+    <div class="modal-overlay hidden" id="reader-modal">
+        <div class="modal-container">
+            <header class="modal-header">
+                <div class="modal-title-group">
+                    <span class="badge" id="modal-chapter-badge">Capítulo 01</span>
+                    <h2 id="modal-chapter-title">Fundamentos de Testes</h2>
+                </div>
+                <button class="btn-close-modal" id="btn-close-reader" aria-label="Fechar Leitor">✕</button>
+            </header>
+            <div class="modal-body markdown-body" id="modal-reader-content">
+                <!-- Rendered Chapter Content -->
+            </div>
+            <footer class="modal-footer">
+                <button class="btn btn-secondary" id="btn-prev-chapter">← Capítulo Anterior</button>
+                <button class="btn btn-secondary" id="btn-next-chapter">Próximo Capítulo →</button>
+            </footer>
+        </div>
     </div>
 
     <!-- Application Script -->
